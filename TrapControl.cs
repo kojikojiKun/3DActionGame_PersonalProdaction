@@ -1,6 +1,7 @@
 using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 public enum TrapType
 {
     FlameTrap,
@@ -11,15 +12,31 @@ public enum TrapType
 
 public class TrapControl : MonoBehaviour
 {
-    public TrapType type; //トラップの種類をインスペクターで設定
+    [Header("commonStatus")]
+    public TrapType type; //トラップの種類をインスペクターで設定   
+    [SerializeField] private Transform originTransForm; //当たり判定の開始位置
+    [SerializeField] private float radius; //円の半径(射程距離)
+    [SerializeField] private LayerMask targetMask; //対象のレイヤー
+    private bool enemyEnterRange; //敵の検知フラグ
+    private bool isShot = true; //攻撃フラグ
 
     [Header("Flame")]
     [SerializeField] ParticleSystem[] fireParticle; //炎のパーティクル(3つ)
+    [SerializeField] private float coneAngle; //炎トラップの判定角度
     private float fireStartSpeed; //パーティクルの初速度
     private float fireShotInterval; //パーティクルの再生間隔
     private float fireDuration; //パーティクルの持続時間
     private float fireDamageInterval; //炎が敵にダメージを与える間隔
     private float fireDamage; //炎のダメージ
+    
+    [Header("CrossBow")]
+    [SerializeField] private GameObject arrowPrefab;
+    [SerializeField] private Transform shotPos;
+    private float shotArrowInterval; //矢の発射間隔
+    private float arrowDamage; //矢のダメージ;
+    private float shotRange; //射程距離
+    private int numOfArrow; //矢の数
+    [SerializeField] private float spreadAngle;
 
     //TrapStatusで設定された値を代入
     public void SetFlameTrapStasus(float startSpeed, float interval, float duration, float dmgInterval, float damage)
@@ -29,55 +46,47 @@ public class TrapControl : MonoBehaviour
         fireDuration = duration;
         fireDamageInterval = dmgInterval;
         fireDamage = damage;
+        radius = fireStartSpeed * 0.8f; //パーティクルの初速度で射程距離を決める
     }
-
-    //private Vector3 center; //判定の中心
-    [SerializeField] private Transform originFlameTrapTransForm; //当たり判定の開始位置
-    [SerializeField] private float radius; //円の半径(炎の射程距離)
-    [SerializeField] private float coneAngle; //視野の角度
-    [SerializeField] private LayerMask targetMask; //対象のレイヤー
 
     private void FlameControl()
     {
         enemyEnterRange = false;
 
-        Vector3 origin = originFlameTrapTransForm.position; //開始位置
-        Vector3 forward = originFlameTrapTransForm.forward; //方向を前方に設定
+        Vector3 origin = originTransForm.position; //開始位置
+        Vector3 forward = originTransForm.forward; //方向を前方に設定
         Collider[] colliders = Physics.OverlapSphere(origin, radius, targetMask); //円の中のコライダーをすべて取得(targetMask以外は除外する)
-        List<GameObject> targetEnemies = new List<GameObject>(); //範囲内の敵を格納するリストを作成
+        List<GameObject> targets = new List<GameObject>(); //範囲内の敵を格納するリストを作成
 
-        foreach (Collider collider in colliders)
+        foreach (Collider col in colliders)
         {
-            Vector3 toTarget = (collider.transform.position - origin).normalized; //ターゲットとの距離を計算し正規化
+            Vector3 toTarget = (col.transform.position - origin).normalized; //ターゲットとの距離を計算し正規化
             float angle = Vector3.Angle(forward, toTarget); //前方向との角度を計算
 
             //coneAngle内なら判定する
             if (angle < coneAngle / 2f)
             {
-                targetEnemies.Add(collider.gameObject); //範囲内の敵を入れる配列を作成
+                targets.Add(col.gameObject); //範囲内の敵を入れる配列を作成
                 for (int i = 0; i < colliders.Length; i++)
                 {
-                    targetEnemies[i] = colliders[i].gameObject; //配列内の敵を取得
+                    targets[i] = colliders[i].gameObject; //配列内の敵を取得
                 }
             }
         }
 
-        if (targetEnemies.Count > 0) //範囲内の敵が一体以上
+        if (targets.Count > 0) //範囲内の敵が一体以上
         {
             enemyEnterRange = true;
-
-            if (giveDamage == true)
-                StartCoroutine(DamageContinue(fireDamage,
-                                                   fireDamageInterval,
-                                                    targetEnemies.ToArray())); //fireDamageをfireDamageInterval秒ごとに敵に与える
         }
 
         if (enemyEnterRange == true && isShot == true) //敵が攻撃範囲に入ったら攻撃
-            StartCoroutine(ShotFire()); //炎を発射
+            StartCoroutine(ShotFire(fireDamage,
+                fireDamageInterval,
+                targets.ToArray())); //炎を発射
     }
 
     //炎を発射
-    private IEnumerator ShotFire()
+    private IEnumerator ShotFire(float damage, float dmgInterval, GameObject[] targets)
     {
         isShot = false;
 
@@ -86,23 +95,18 @@ public class TrapControl : MonoBehaviour
         fireParticle[1].Play();
         fireParticle[2].Play();
         Debug.Log("Fire!!!");
-        yield return new WaitForSeconds(fireDuration); //パーティクルの再生が終わるまで待機
+        StartCoroutine(DamageContinue(damage, dmgInterval, targets));
+        yield return new WaitForSeconds(fireDuration); //パーティクルの再生が終わるまで待機       
         yield return new WaitForSeconds(fireShotInterval); //fireInterval秒待機
         isShot = true;
     }
-
-    private bool enemyEnterRange = false; //敵の検知フラグ
-    private bool isShot = true; //攻撃フラグ
-    private bool giveDamage;
 
     //敵に継続的にダメージを与える(ブレードトラップ、炎トラップ用)
     //ダメージの値とダメージを与える間隔の値,ダメージを与える対象を渡す
     private IEnumerator DamageContinue(float damage, float dmgInterval, GameObject[] targets)
     {
-        giveDamage = false;
-
         float timer = 0;
-        while (timer < dmgInterval)
+        while (timer < fireDuration)
         {
             foreach (GameObject enemy in targets)
             {
@@ -113,41 +117,93 @@ public class TrapControl : MonoBehaviour
                 {
                     enemyStatus.TakeDamageEnemy(damage); //敵にダメージを与える
                 }
-                
+
             }
             yield return new WaitForSeconds(dmgInterval); //dmgInterval秒待機
             timer += dmgInterval;
         }
-        giveDamage = true;
     }
 
-    //シーンビューで当たり判定を表示
-    private void OnDrawGizmos()
+    public void SetCrossBowTrapStatus(float interval, float damage, float range, int amount)
     {
-        Vector3 origin = originFlameTrapTransForm.position;
-        Vector3 forward = originFlameTrapTransForm.forward;
-
-        Gizmos.color = new Color(0, 1, 0, 1);
-        Gizmos.DrawWireSphere(origin, radius);
-
-        Quaternion leftRot = Quaternion.AngleAxis(-coneAngle / 2f, Vector3.up);
-        Quaternion rightRot = Quaternion.AngleAxis(coneAngle / 2f, Vector3.up);
-
-        Vector3 leftDir = leftRot * forward;
-        Vector3 rightDir = rightRot * forward;
-
-        Gizmos.color = Color.yellow;
-        Gizmos.DrawLine(origin, origin + leftDir * radius);
-        Gizmos.DrawLine(origin, origin + rightDir * radius);
-    }
-
-    public void SetCrossBowTrapStatus()
-    {
-
+        shotArrowInterval = interval;
+        arrowDamage = damage;
+        shotRange = range;
+        numOfArrow = amount;
     }
     private void CrossBowControl()
     {
+        enemyEnterRange = false;
+        Vector3 origin = originTransForm.position;
 
+        Collider[] colliders = Physics.OverlapSphere(origin, shotRange, targetMask);
+        Collider closestTarget = null;
+        float closestDistance = Mathf.Infinity;
+
+        foreach (Collider col in colliders)
+        {
+            float distance = (col.transform.position - origin).sqrMagnitude; //射程距離内の敵との距離を計算
+            if (distance < closestDistance)
+            {
+                closestDistance = distance;
+                closestTarget = col; //もっとも距離が近い敵を代入
+            }
+        }
+
+        if (colliders.Length > 0)
+        {
+            Debug.Log("ssssssssssssssssssss");
+            Vector3 targetPosition = new Vector3(closestTarget.transform.position.x,
+                       gameObject.transform.position.y,
+                       closestTarget.transform.position.z);
+
+            gameObject.transform.LookAt(targetPosition); //本体を敵の方向に向ける
+            transform.Rotate(0, 90, 0); //オブジェクトの角度調整
+
+            if (isShotArrow == true)
+            {
+                Debug.Log("aaaaaaaaaaaaaaaaaaaaaaaaa");
+                shotArrow(closestTarget.transform);
+            }
+        }
+    }
+
+    private bool isShotArrow = true;
+    private IEnumerator shotArrow(Transform targetPos)
+    {
+        isShotArrow = false;
+        Debug.Log("shot");
+        if (numOfArrow <2)
+        {
+            Vector3 direction = (targetPos.position - shotPos.position).normalized; //発射角度計算
+
+            //矢を生成
+            GameObject arrow = Instantiate(arrowPrefab, shotPos.position, Quaternion.LookRotation(direction));
+            ArrowMove arrowMove = arrow.GetComponent<ArrowMove>();
+            arrowMove.SetDirection(direction,arrowDamage); //矢に速度とダメージを渡す
+            yield return new WaitForSeconds(shotArrowInterval); //shotArrowInterval秒待機
+        }
+        else
+        {
+            Vector3 targetDir = (targetPos.position - shotPos.position).normalized; //敵との角度を計算
+            float startAngle = spreadAngle / 2; //矢の発射位置の真ん中
+            float angleStep = spreadAngle / (numOfArrow - 1); //真ん中からずらす角度
+
+            for(int i = 0; i < numOfArrow; i++)
+            {
+                float angle = startAngle + i * angleStep; //真ん中の発射位置から角度をずらす
+
+                Quaternion rotation = Quaternion.AngleAxis(angle, Vector3.up);
+                Vector3 direction = rotation * targetDir; //進む方向を計算
+
+                //矢を放射状に生成
+                GameObject arrow = Instantiate(arrowPrefab, shotPos.position, Quaternion.LookRotation(direction));
+                ArrowMove arrowMove = arrow.GetComponent<ArrowMove>();
+                arrowMove.SetDirection(direction,arrowDamage); //矢に速度とダメージを渡す
+                yield return new WaitForSeconds(shotArrowInterval); //shotArrowInterval秒待機
+            }
+        }
+        isShotArrow = true;
     }
 
     public void SetBladeTrapStatus()
@@ -178,6 +234,7 @@ public class TrapControl : MonoBehaviour
                 fireShotInterval = TrapStaus.instance.shotFlameInterval;
                 fireDuration = TrapStaus.instance.shotFlameDuration;
                 fireDamageInterval = TrapStaus.instance.flameDamageInterval;
+                fireDamage = TrapStaus.instance.flameDamage;
 
                 //パーティクルモジュールを設定 
                 var main_0 = fireParticle[0].main;
@@ -195,6 +252,10 @@ public class TrapControl : MonoBehaviour
                 main_2.duration = fireDuration;
                 break;
             case TrapType.CrossBowTrap:
+                shotArrowInterval = TrapStaus.instance.shotArrowInterval;
+                arrowDamage = TrapStaus.instance.arrowDamage;
+                shotRange = TrapStaus.instance.crossBowRange;
+                numOfArrow = 1;
                 break;
             case TrapType.SpinBladeTrap:
                 break;
@@ -210,6 +271,9 @@ public class TrapControl : MonoBehaviour
         {
             case TrapType.FlameTrap:
                 FlameControl();
+                break;
+            case TrapType.CrossBowTrap:
+                CrossBowControl();
                 break;
         }
     }

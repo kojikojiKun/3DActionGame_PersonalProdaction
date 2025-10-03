@@ -84,11 +84,16 @@ public class TrapStaus : MonoBehaviour
 
         foreach (TrapControl flameTraps in allFlameTraps)
         {
+            flameTraps.SetFlameTrapStasus(
+                particleStartSpeed,
+                shotFlameInterval,
+                shotFlameDuration,
+                flameDamageInterval,
+                flameDamage);
         }
     }
 
     [Header("CrossBowTrapのステータス")]
-    [SerializeField] private GameObject arrow;
     public float shotArrowInterval; //矢の発射間隔
     public float arrowDamage; //矢のダメージ
     public float crossBowRange; //射程距離
@@ -121,16 +126,20 @@ public class TrapStaus : MonoBehaviour
         }
 
         TrapControl[] allTraps = FindObjectsByType<TrapControl>(FindObjectsSortMode.None); //シーン内のすべてのトラップオブジェクトを取得
-        List<TrapControl> crossBowTraps = new List<TrapControl>(); //クロスボウトラップのリストを作成     
+        List<TrapControl> allCrossBowTraps = new List<TrapControl>(); //クロスボウトラップのリストを作成     
         foreach (TrapControl trapControl in allTraps)
         {
             //TrapType.CrossBowTrapのオブジェクトを探す
             if (trapControl.type == TrapType.CrossBowTrap)
             {
-                crossBowTraps.Add(trapControl); //オブジェクトをリストに追加
-            }
+                allCrossBowTraps.Add(trapControl); //オブジェクトをリストに追加
+            }         
         }
 
+        foreach(TrapControl crossBowTraps in allCrossBowTraps)
+        {
+            crossBowTraps.SetCrossBowTrapStatus(shotArrowInterval, arrowDamage, crossBowRange, numOfArrow);
+        }
     }
 
     [Header("BladeTrapのステータス")]

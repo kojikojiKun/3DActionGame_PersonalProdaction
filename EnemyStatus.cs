@@ -88,20 +88,24 @@ public class EnemyStatus : MonoBehaviour
 
             TakeDamageEnemy(Dmg);
 
-            if (hp <= 0)
-            {
-                hp = 0;
-                isDead = true;
-                EnemyDead();
-            }
+           
         }
     }
 
     //HPを減らす
     public void TakeDamageEnemy(float dmg)
     {
+        if (isDead == true) return;
+        
         hp -= dmg;
         Debug.LogWarning($"{dmg}のダメージを受けた");
+
+        if (hp <= 0)
+        {
+            hp = 0;
+            isDead = true;
+            EnemyDead();
+        }
     }
 
     //アニメーションイベントで攻撃判定を出す
