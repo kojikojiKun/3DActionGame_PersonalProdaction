@@ -5,6 +5,8 @@ public class SpinBladeControl : MonoBehaviour
 {
     public static List<SpinBladeControl> allBladeTraps = new List<SpinBladeControl>();
     [SerializeField] TrapStaus trapStaus;
+    [SerializeField] TrapType type;
+
     [Header("SpinBlade")]
     [SerializeField] Transform originTransform;
     [SerializeField] NavMeshAgent bladeAgent;
@@ -60,6 +62,6 @@ public class SpinBladeControl : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        BladeTrapControl();
     }
 }

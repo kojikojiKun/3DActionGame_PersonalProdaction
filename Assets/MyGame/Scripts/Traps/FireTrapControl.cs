@@ -72,13 +72,15 @@ public class FireTrapControl : MonoBehaviour
             }
         }
 
-        if (isShot == true) //敵が攻撃範囲に入ったら攻撃
+        if (isShot == true)
+        { //敵が攻撃範囲に入ったら攻撃
             StartCoroutine(ShotFire(fireDamage,
                 fireDamageInterval,
                 targets.ToArray())); //炎を発射
+        }
     }
 
-    private void OnDrawGizmos()
+    /*private void OnDrawGizmos()
     {
         Vector3 origin = originTransform.position;
         Vector3 forward = originTransform.forward;
@@ -96,13 +98,13 @@ public class FireTrapControl : MonoBehaviour
         // 右境界線
         Vector3 rightDir = Quaternion.Euler(0, halfAngle, 0) * forward;
         Gizmos.DrawRay(origin, rightDir * radius);
-    }
+    }*/
 
     //炎を発射
     private IEnumerator ShotFire(float damage, float dmgInterval, GameObject[] targets)
     {
         isShot = false;
-        yield return new WaitForSeconds(fireShotInterval); //fireInterval秒待機
+        
         //パーティクル再生
         for (int i = 0; i < fireParticle.Length; i++)
         {
@@ -111,7 +113,7 @@ public class FireTrapControl : MonoBehaviour
         Debug.Log("Fire!!!");
         StartCoroutine(DamageContinue(damage, dmgInterval, targets));
         yield return new WaitForSeconds(fireDuration); //パーティクルの再生が終わるまで待機       
-
+        yield return new WaitForSeconds(fireShotInterval); //fireInterval秒待機
         isShot = true;
     }
 
@@ -122,6 +124,7 @@ public class FireTrapControl : MonoBehaviour
         float timer = 0;
         while (timer < fireDuration)
         {
+            Debug.Log("111111111111111111111111111111");
             foreach (GameObject enemy in targets)
             {
                 if (enemy == null) continue; //nullチェック

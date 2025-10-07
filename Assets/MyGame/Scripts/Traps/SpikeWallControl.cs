@@ -5,6 +5,7 @@ public class SpikeWallControl : MonoBehaviour
 {
     public static List<SpikeWallControl> allSpikeTraps = new List<SpikeWallControl>();
     [SerializeField] TrapStaus trapStaus;
+    [SerializeField] TrapType type;
     [Header("status")]
     private float spikeDurability; //スパイクトラップの耐久値
     private float spikeDamage; //スパイクトラップのダメージ量
@@ -24,9 +25,14 @@ public class SpikeWallControl : MonoBehaviour
         spikeDurability = durability;
         spikeDamage = damage;
     }
-    private void SpikeControl()
-    {
 
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.layer == LayerMask.NameToLayer("Enemy"))
+        {
+            EnemyStatus enemyStatus = other.GetComponent<EnemyStatus>();
+            enemyStatus.TakeDamageEnemy(spikeDamage);
+        }
     }
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()

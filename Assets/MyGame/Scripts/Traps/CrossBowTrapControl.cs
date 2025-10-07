@@ -5,6 +5,7 @@ using System.Collections.Generic;
 public class CrossBowTrapControl : MonoBehaviour
 {
     public static List<CrossBowTrapControl> allCrossBowTraps = new List<CrossBowTrapControl>();
+    [SerializeField] TrapType type;
     [SerializeField] TrapStaus trapStaus;
     [Header("status")]
     [SerializeField] Transform originTransform;
@@ -16,7 +17,7 @@ public class CrossBowTrapControl : MonoBehaviour
     private float shotRange; //Ë’ö‹——£
     private int numOfArrow; //–î‚Ì”
     private float spreadAngle; //–î‚ÌŠgU‚·‚éŠp“x
-    private bool isShot;
+    private bool isShot=true;
 
     private void Awake()
     {
@@ -70,10 +71,18 @@ public class CrossBowTrapControl : MonoBehaviour
         }
     }
 
+    private void OnDrawGizmos()
+    {
+        Vector3 origin = originTransform.transform.position;
+        Gizmos.color = Color.blue;
+        Gizmos.DrawWireSphere(origin, shotRange);
+    }
+
     //–î‚ğ¶¬‚µ“G‚ÉŒü‚¯‚ÄËo
     private IEnumerator shotArrow(Transform targetPos)
     {
         isShot = false;
+        Debug.Log("shot");
         if (numOfArrow < 2)
         {
             Debug.Log("–î‚Íˆê–{");

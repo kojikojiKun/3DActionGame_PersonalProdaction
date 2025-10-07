@@ -1745,47 +1745,6 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1eb37bff6c514b143a336cfef858fe4e, type: 3}
---- !u!114 &171257214
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4794464295857628884}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cd96917530deb6044b12e378946710ff, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::TrapControl
-  type: 2
-  trapStaus: {fileID: 567116188}
-  originTransForm: {fileID: 2649127592852972516}
-  radius: 0
-  targetMask:
-    m_Bits: 128
-  isShot: 1
-  fireParticle: []
-  coneAngle: 0
-  fireStartSpeed: 0
-  fireShotInterval: 0
-  fireDuration: 0
-  fireDamageInterval: 0
-  fireDamage: 0
-  arrowPrefab: {fileID: 7334954341520850735, guid: d1d7500246662444581553a4bc509bd8, type: 3}
-  shotPos: {fileID: 1885113715219417579}
-  shotArrowInterval: 0
-  arrowDamage: 0
-  shotRange: 0
-  numOfArrow: 0
-  spreadAngle: 0
-  bladeAgent: {fileID: 0}
-  cetral: {fileID: 0}
-  bladeSize: 0
-  bladeSpeed: 0
-  bladeDmgInterval: 0
-  bladeDmg: 0
-  spikeDurability: 0
-  spikeDamage: 0
 --- !u!4 &172673726 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4252784401376168, guid: 22a3fd8d3e59a1149bdcd775c0e87241, type: 3}
@@ -5381,19 +5340,19 @@ MonoBehaviour:
   particleStartSpeed: 20
   shotFireInterval: 5
   shotFireDuration: 3
-  fireDamageInterval: 1
+  fireDamageInterval: 0.5
   fireDamage: 0.5
   shotArrowInterval: 1
   arrowDamage: 2
   crossBowRange: 10
-  spreadAngle: 0
+  spreadAngle: 30
   numOfArrow: 1
   bladeSize: 1.5
   bladeSpeed: 5
   bladeDamageInterval: 0
   bladeDamage: 0
-  wallDurability: 0
-  spikeDamage: 0
+  wallDurability: 30
+  spikeDamage: 5
 --- !u!4 &567116189
 Transform:
   m_ObjectHideFlags: 0
@@ -9237,7 +9196,7 @@ MeshCollider:
     serializedVersion: 2
     m_Bits: 6400
   m_LayerOverridePriority: 0
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 5
@@ -18382,7 +18341,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6146416746057084839, guid: 241e250ae7c639e4fa5849326e877ca3, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 111
+      value: 120.13
       objectReference: {fileID: 0}
     - target: {fileID: 6146416746057084839, guid: 241e250ae7c639e4fa5849326e877ca3, type: 3}
       propertyPath: m_LocalPosition.y
@@ -18390,7 +18349,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6146416746057084839, guid: 241e250ae7c639e4fa5849326e877ca3, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 86.4
+      value: 85.15
       objectReference: {fileID: 0}
     - target: {fileID: 6146416746057084839, guid: 241e250ae7c639e4fa5849326e877ca3, type: 3}
       propertyPath: m_LocalRotation.w
@@ -20604,7 +20563,7 @@ Transform:
   m_GameObject: {fileID: 919132149152784558}
   serializedVersion: 2
   m_LocalRotation: {x: -6.007733e-17, y: 0.98113716, z: -0.19331297, w: 1.1837007e-17}
-  m_LocalPosition: {x: 118.74, y: 5.23, z: 95.52}
+  m_LocalPosition: {x: 124.56, y: 6.68, z: 84.54}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -20623,6 +20582,7 @@ GameObject:
   - component: {fileID: 1711813855678235003}
   - component: {fileID: 1092226436}
   - component: {fileID: 1092226440}
+  - component: {fileID: 3469287837593761202}
   m_Layer: 0
   m_Name: SpikeWall
   m_TagString: Untagged
@@ -20809,7 +20769,7 @@ Transform:
   m_GameObject: {fileID: 4794464295857628884}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: -0.7071068, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: 116.49, y: 2.11, z: 89.54}
+  m_LocalPosition: {x: 104.73, y: 2.11, z: 82.02}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -20872,6 +20832,20 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 919132149152784558}
   m_Mesh: {fileID: -8535744352153421394, guid: f0b363472b08d4612ab5ec09bea39817, type: 3}
+--- !u!114 &3469287837593761202
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 919132149152784558}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 814ee8a0b76bf1a418bcdf348f87aef2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::SpikeWallControl
+  trapStaus: {fileID: 567116188}
+  type: 3
 --- !u!1 &3740652380906228347
 GameObject:
   m_ObjectHideFlags: 0
@@ -20887,6 +20861,7 @@ GameObject:
   - component: {fileID: 2050382377}
   - component: {fileID: 9169594459419773968}
   - component: {fileID: 9169594459419773969}
+  - component: {fileID: 9169594459419773970}
   m_Layer: 0
   m_Name: spin blade
   m_TagString: Untagged
@@ -20918,7 +20893,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2649127592852972516}
-  - component: {fileID: 171257214}
+  - component: {fileID: 4794464295857628885}
   m_Layer: 0
   m_Name: crossBowPos
   m_TagString: Untagged
@@ -20926,6 +20901,26 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!114 &4794464295857628885
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4794464295857628884}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f30b0765f1ffea546962498b83357a21, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CrossBowTrapControl
+  type: 2
+  trapStaus: {fileID: 567116188}
+  originTransform: {fileID: 2649127592852972516}
+  targetMask:
+    serializedVersion: 2
+    m_Bits: 128
+  arrowPrefab: {fileID: 7334954341520850735, guid: d1d7500246662444581553a4bc509bd8, type: 3}
+  shotPos: {fileID: 1885113715219417579}
 --- !u!23 &5561000426595697724
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -21038,7 +21033,8 @@ PrefabInstance:
       propertyPath: trapStaus
       value: 
       objectReference: {fileID: 567116188}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 8497212008556700834, guid: ba4af2b790a84b847a5504c08789d2f7, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents:
@@ -21240,6 +21236,24 @@ MonoBehaviour:
   bladeDmg: 0
   spikeDurability: 0
   spikeDamage: 0
+--- !u!114 &9169594459419773970
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3740652380906228347}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 762999466f71e404ca152f7072a92551, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::SpinBladeControl
+  trapStaus: {fileID: 567116188}
+  type: 1
+  originTransform: {fileID: 4081008007198200001}
+  bladeAgent: {fileID: 9169594459419773968}
+  cetral: {fileID: 1175293121}
+  radius: 10
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
@@ -21253,10 +21267,10 @@ SceneRoots:
   - {fileID: 1956588982}
   - {fileID: 674363408}
   - {fileID: 1662817560}
+  - {fileID: 1250268254}
+  - {fileID: 5914067480506234290}
+  - {fileID: 2649127592852972516}
   - {fileID: 4081008007198200001}
   - {fileID: 543450653609228820}
-  - {fileID: 1250268254}
-  - {fileID: 2649127592852972516}
-  - {fileID: 5914067480506234290}
   - {fileID: 567116189}
   - {fileID: 1961407056}
