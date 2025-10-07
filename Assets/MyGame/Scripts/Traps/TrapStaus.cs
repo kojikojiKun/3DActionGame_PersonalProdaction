@@ -1,6 +1,14 @@
 using UnityEngine;
 using System.Collections.Generic;
 
+public enum TrapType
+{
+    FireTrap,
+    SpinBladeTrap,
+    CrossBowTrap,
+    SpikeTrap
+}
+
 public class TrapStaus : MonoBehaviour
 {
     //選択された強化内容に応じてトラップのステータスを強化
@@ -143,7 +151,7 @@ public class TrapStaus : MonoBehaviour
 
     [Header("SpikeWallのステータス")]
     [SerializeField] private float wallDurability; //spikeWallの耐久値
-    [SerializeField] private float SpikeDamage; //spikeWallのダメージ
+    [SerializeField] private float spikeDamage; //spikeWallのダメージ
 
     //スパイクトラップの初期ステータス
     private float stWallDurability;
@@ -165,22 +173,21 @@ public class TrapStaus : MonoBehaviour
 
     public void GiveStatus()
     {
-        foreach (TrapControl trapControl in TrapControl.AllTraps)
+        foreach (FireTrapControl fire in FireTrapControl.allFireTraps)
         {
-            Debug.Log($"{trapControl.type}セット");
-            switch (trapControl.type)
-            {
-                case TrapType.FireTrap:
-                    trapControl.SetFireTrapStasus(particleStartSpeed,shotFireInterval,shotFireDuration,shotFireDuration,fireDamage);
-                    break;
-                case TrapType.CrossBowTrap:
-                    trapControl.SetCrossBowTrapStatus(shotArrowInterval, arrowDamage, crossBowRange,spreadAngle, numOfArrow);
-                    break;
-                case TrapType.SpinBladeTrap:
-                    break;
-                case TrapType.SpikeTrap:
-                    break;
-            }
+            fire.SetFireStatus(particleStartSpeed, shotFireInterval, shotFireDuration, shotFireDuration, fireDamage);
+        }
+        foreach (CrossBowTrapControl crossBow in CrossBowTrapControl.allCrossBowTraps)
+        {
+            crossBow.SetCrossBowStatus(shotArrowInterval, arrowDamage, crossBowRange, spreadAngle, numOfArrow);
+        }
+        foreach(SpinBladeControl spinBlade in SpinBladeControl.allBladeTraps)
+        {
+            spinBlade.SetBladeStatus(bladeSize, bladeSpeed, bladeDamageInterval, bladeDamage);
+        }
+        foreach(SpikeWallControl spikeWall in SpikeWallControl.allSpikeTraps)
+        {
+            spikeWall.SetSpikeWallStasus(wallDurability, spikeDamage);
         }
     }
 
@@ -224,13 +231,7 @@ public class TrapStaus : MonoBehaviour
         ///ここからSpikeWallTrap
         //SpikeTrapのステータスの初期値を保存
         stWallDurability = wallDurability;
-        stSpikeDamage = SpikeDamage;
+        stSpikeDamage = spikeDamage;
         ///
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-
     }
 }
