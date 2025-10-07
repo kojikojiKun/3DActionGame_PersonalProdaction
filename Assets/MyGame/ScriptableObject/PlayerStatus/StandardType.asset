@@ -1,0 +1,26 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: db8158e16aaf0364fbdeef32e2217910, type: 3}
+  m_Name: StandardType
+  m_EditorClassIdentifier: Assembly-CSharp::CharactorStatus
+  type: 0
+  id: StandardType
+  hp: 35
+  speed: 3
+  attackSpeed: 1
+  attackPower: 35
+  hpMlp: 1.1
+  SpMlp: 1.1
+  AsMlp: 1.1
+  ApMlp: 1.1
+  baseCost: 0
+  costIncreasePerLevel: 0
