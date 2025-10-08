@@ -29,6 +29,7 @@ public class ObjectPool : MonoBehaviour
         }
 
         pool.Enqueue(obj);
+        Debug.Log("create");
         return obj;
     }
 

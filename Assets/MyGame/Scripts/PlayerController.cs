@@ -345,7 +345,6 @@ public class PlayerController : MonoBehaviour
     public static PlayerController instance;
     private void Awake()
     {
-        Cursor.lockState=CursorLockMode.Locked;
         _transform = transform;
         characterController = GetComponent<CharacterController>();
         playerAnimation = GetComponent<PlayerAnimation>();
