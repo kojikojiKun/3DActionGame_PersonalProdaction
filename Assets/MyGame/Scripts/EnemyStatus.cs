@@ -6,16 +6,16 @@ using System.Collections;
 public class EnemyStatus : MonoBehaviour
 {
     //参照
-    public EnemyType type;
+    [SerializeField] private EnemyType type;
     [Header("ScriptableObject(EnemyData)を設定")]
-    public EnemyData enemyData;
+    [SerializeField] EnemyData enemyData;
     [Header("攻撃範囲")]
-    public Collider attackCollider;
-    private Animator animator;
-    private NavMeshAgent agent;
-    public GameObject player;
-    private PlayerController playerController;
-    private HitAttack hitAttack;
+    [SerializeField] Collider attackCollider;
+    [SerializeField] Animator animator;
+    [SerializeField] NavMeshAgent agent;
+    [SerializeField] GameObject player;
+    [SerializeField] PlayerController playerController;
+    [SerializeField] HitAttack hitPlayerAttack;
 
     //経験値のオブジェクト
     [SerializeField] private GameObject[] dropExp;
@@ -53,7 +53,7 @@ public class EnemyStatus : MonoBehaviour
         if (player != null)
         {
             playerController = player.GetComponent<PlayerController>();
-            hitAttack = player.GetComponent<HitAttack>();
+            hitPlayerAttack = player.GetComponent<HitAttack>();
         }
     }
 
@@ -81,7 +81,7 @@ public class EnemyStatus : MonoBehaviour
         if (other.CompareTag("PlayerAttackRange"))
         {
             //プレイヤーから受けるダメージを計算
-            dmgMultipul = hitAttack.dmgMultipul;
+            dmgMultipul = hitPlayerAttack.dmgMultipul;
             float power = playerController.attackPower;
         
             Dmg = Mathf.RoundToInt((power * dmgMultipul) / diffencePower); //int型に変換

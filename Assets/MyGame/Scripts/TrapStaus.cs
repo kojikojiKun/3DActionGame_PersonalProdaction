@@ -173,26 +173,7 @@ public class TrapStaus : MonoBehaviour
 
     public void GiveStatus()
     {
-        foreach (FireTrapControl fire in FireTrapControl.allFireTraps)
-        {
-            Debug.Log($"SetFireStatus");
-            fire.SetFireStatus(particleStartSpeed, shotFireInterval, shotFireDuration, shotFireDuration, fireDamage);
-        }
-        foreach (CrossBowTrapControl crossBow in CrossBowTrapControl.allCrossBowTraps)
-        {
-            Debug.Log($"SetCrossBowStatus");
-            crossBow.SetCrossBowStatus(shotArrowInterval, arrowDamage, crossBowRange, spreadAngle, numOfArrow);
-        }
-        foreach(SpinBladeControl spinBlade in SpinBladeControl.allBladeTraps)
-        {
-            Debug.Log($"SetBladeStatus");
-            spinBlade.SetBladeStatus(bladeSize, bladeSpeed, bladeDamageInterval, bladeDamage);
-        }
-        foreach(SpikeWallControl spikeWall in SpikeWallControl.allSpikeTraps)
-        {
-            Debug.Log($"SetSpikeWallStasus");
-            spikeWall.SetSpikeWallStasus(wallDurability, spikeDamage);
-        }
+       
     }
 
     public static TrapStaus instance;

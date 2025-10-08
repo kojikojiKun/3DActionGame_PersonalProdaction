@@ -315,7 +315,7 @@ public class PlayerController : MonoBehaviour
             Dead();
         }
 
-        Debug.Log($"敵から{dmg}のダメージを受けた...のこりHPは{hp}");
+        //Debug.Log($"敵から{dmg}のダメージを受けた...のこりHPは{hp}");
         StartCoroutine(Invincible());
     }
 
