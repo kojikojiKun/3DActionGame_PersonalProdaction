@@ -1,4 +1,3 @@
-
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -9,17 +8,25 @@ public class PutTraps : MonoBehaviour
     [SerializeField] InputActionReference scrollAction;
     [SerializeField] InputActionReference mousePosition;
     [SerializeField] InputActionReference buttonDown;
+    [SerializeField] InputActionReference rotateTrap;
 
+    [SerializeField] GameObject player;
     [SerializeField] ObjectPool[] trapPools; // トラップ用プール
     [SerializeField] GameObject[] previewTrapPrefab; //トラップの設置プレビュー用オブジェクト
+    [SerializeField] Material prevMaterial;
+    private GameObject[] prevInstance;
+    private Collider[] prevCollider;
     private Transform lastPreviewPos; //プレビューの最終座標
-    private Renderer[] previewRenderer;
+    [SerializeField] private float rotateSpeed;
     [SerializeField] private float maxPlaceDistance; //トラップを設置可能なプレイヤーとの距離
     [SerializeField] LayerMask fieldMask; //トラップ設置可能なレイヤー
-    public bool waveFinished; //ウェーブ終了フラグ
-    public bool buildMode=false; //トラップ設置モードフラグ
-    private bool decided = false; //トラップの種類選択完了フラグ
+    public bool waveFinished = true; //ウェーブ終了フラグ
+    public bool buildMode = true; //トラップ設置モードフラグ
+    private bool decided; //トラップの種類選択完了フラグ
     private bool canPlace; //トラップ設置可能フラグ
+    private bool isRotating;
+    private bool isCollision;
+    private Vector2 rotateDir;
     private int trapIndex = 0;
     private float nextAllowTime = 0f;
     private float scrollCoolDown = 0.1f; //マウスミドルボタンのスクロールクールダウン
@@ -30,18 +37,23 @@ public class PutTraps : MonoBehaviour
         scrollAction.action.Enable();
         mousePosition.action.Enable();
         buttonDown.action.Enable();
-
+        rotateTrap.action.Enable();
+        rotateTrap.action.performed += OnRotateTrap;
+        rotateTrap.action.canceled += OnRotateTrap;
     }
     void OnDisable()
     {
         clickAction.action.Disable();
         scrollAction.action.Disable();
         mousePosition.action.Disable();
-        buttonDown.action.Enable();
+        buttonDown.action.Disable();
+        rotateTrap.action.Disable();
+        rotateTrap.action.performed -= OnRotateTrap;
+        rotateTrap.action.canceled -= OnRotateTrap;
     }
 
     //マウスミドルボタンスクロールでトラップの種類選択
-    public void OnScroll(InputAction.CallbackContext context)
+    public void OnSelectTrap(InputAction.CallbackContext context)
     {
         if (Time.time < nextAllowTime || decided == true) return;
         Vector2 scrollValue = context.ReadValue<Vector2>();
@@ -61,16 +73,52 @@ public class PutTraps : MonoBehaviour
             {
                 decided = false; //トラップ未選択
             }
-
+            if (prevInstance[trapIndex] != null)
+            {
+                Debug.Log("prev is not null");
+            }
+            Debug.Log(trapIndex);
             if (decided == true)
             {
-                previewTrapPrefab[trapIndex].SetActive(true);
-               Debug.Log($"{trapIndex}oooooooooooo");
+                prevInstance[trapIndex].SetActive(true);
+                Debug.Log($"{prevInstance[trapIndex]}active");
             }
             else
             {
-                previewTrapPrefab[trapIndex].SetActive(false);
-                Debug.Log($"{trapIndex}iiiiiiiiiiiiiiiii");
+                prevInstance[trapIndex].SetActive(false);
+                Debug.Log($"{prevInstance[trapIndex]}invilid");
+            }
+        }
+    }
+
+    public void OnRotateTrap(InputAction.CallbackContext context)
+    {
+        if (context.started || context.performed)
+        {
+            isRotating = true;
+            rotateDir = context.ReadValue<Vector2>();
+        }
+        else
+        {
+            isRotating = false;
+        }
+    }
+
+    void RotateTrap()
+    {
+        if (decided == true)
+        {
+            GameObject prev = prevInstance[trapIndex];
+            if (rotateDir.x > 0.1f)
+            {
+                prev.transform.Rotate(0, rotateSpeed * Time.deltaTime, 0);
+                Debug.Log(prev.transform.localRotation);
+
+            }
+            else if (rotateDir.x < -0.1f)
+            {
+                prev.transform.Rotate(0, -rotateSpeed * Time.deltaTime, 0);
+                Debug.Log(prev.transform.localRotation);
             }
         }
     }
@@ -80,7 +128,7 @@ public class PutTraps : MonoBehaviour
     {
         if (scrollValue.y > 0.1f)
         {
-           trapIndex++;
+            trapIndex++;
             nextAllowTime = Time.time + scrollCoolDown;
             if (trapIndex >= trapPools.Length)
             {
@@ -93,21 +141,21 @@ public class PutTraps : MonoBehaviour
             nextAllowTime = Time.time + scrollCoolDown;
             if (trapIndex < 0)
             {
-                trapIndex = trapPools.Length-1;
+                trapIndex = trapPools.Length - 1;
             }
-        }  
+        }
     }
 
     //カーソル移動でトラップの設置位置を決める
-    public void MoveTrap(InputAction.CallbackContext context)
+    public void OnMoveTrap(InputAction.CallbackContext context)
     {
-        Vector2 pos = Mouse.current.position.ReadValue();
-        Vector3 origin = transform.position;
+        Vector2 pos = Mouse.current.position.ReadValue(); //マウスカーソルの座標を取得
+        Vector3 origin = player.transform.position; //プレイヤーの座標
         Ray ray = Camera.main.ScreenPointToRay(pos); //カメラからray発射
-        if (Physics.Raycast(ray, out RaycastHit hit,500, fieldMask)) //地面にrayヒット
+        if (Physics.Raycast(ray, out RaycastHit hit, 500, fieldMask)) //地面にrayヒット
         {
             Vector3 hitPos = hit.point; //マウスの座標を3Dに変換
-            previewTrapPrefab[trapIndex].transform.position = hitPos; //プレビュー表示
+            prevInstance[trapIndex].transform.position = hitPos; //プレビュー表示
 
             float distance = Vector3.Distance(origin, hitPos); //マウス位置とプレイヤーの距離計算
             //プレイヤーとの距離が設置可能距離以下
@@ -126,7 +174,7 @@ public class PutTraps : MonoBehaviour
 
 
     //Eキーでトラップの設置位置を決定
-    public void PlaceTrap(InputAction.CallbackContext context)
+    public void OnPlaceTrap(InputAction.CallbackContext context)
     {
         //トラップ選択済みかつ設置可能な場所ならトラップ設置
         if (decided == true && canPlace == true)
@@ -137,17 +185,27 @@ public class PutTraps : MonoBehaviour
             }
         }
     }
+    
+    //プレビューがほかのオブジェクトと衝突していれば設置負荷
+    public void TriggerCheckResult(bool collision)
+    {
+        isCollision = collision;
+    }
 
     void TryPlaceTrap(Vector3 hitPos)
     {
-        GameObject preview = previewTrapPrefab[trapIndex];
-        Renderer renderer = preview.GetComponent<Renderer>();
-        lastPreviewPos = preview.transform;
-        if (renderer == null)
+
+        lastPreviewPos = prevInstance[trapIndex].transform;
+        lastPreviewPos.localRotation = prevInstance[trapIndex].transform.localRotation;
+        if (prevMaterial != null)
         {
-            preview.transform.position = hitPos;
-            
-            renderer.material.color = canPlace ? Color.green : Color.red; //Colorを設置可能なら緑、不可能なら赤に変更
+            prevInstance[trapIndex].transform.position = hitPos;
+            //Colorを設置可能なら緑、不可能なら赤に変更
+            prevMaterial.color = canPlace ? new Color(0f, 1f, 0f, 0.5f) : new Color(1f, 0f, 0f, 0.5f);
+        }
+        else
+        {
+            Debug.LogWarning("prevMaterial is null");
         }
     }
 
@@ -155,16 +213,22 @@ public class PutTraps : MonoBehaviour
     void SucceedPlaceTrap()
     {
         GameObject trap = trapPools[trapIndex].GetObject(); //トラップをプールから取り出す
-        trap.transform.position=lastPreviewPos.position; //トラップをプレビューの位置に設置
+        prevInstance[trapIndex].SetActive(false); //プレビュー非表示
+        trap.SetActive(true);
+        trap.transform.rotation = lastPreviewPos.localRotation;
+        trap.transform.position = lastPreviewPos.position; //トラップをプレビューの位置に設置
         decided = false;
     }
 
     private void Start()
     {
-        previewRenderer = new Renderer[trapPools.Length];
+        prevInstance = new GameObject[trapPools.Length];
+        prevCollider = new Collider[trapPools.Length];
         for (int i = 0; i < trapPools.Length; i++)
         {
-            previewRenderer[i] = previewTrapPrefab[i].GetComponent<Renderer>();
+            prevInstance[i] = Instantiate(previewTrapPrefab[i]);
+            prevCollider[i] = prevInstance[i].GetComponent<Collider>();
+            prevInstance[i].SetActive(false);
         }
     }
 
@@ -178,6 +242,16 @@ public class PutTraps : MonoBehaviour
         else
         {
             OnDisable();
+        }
+
+        if (isRotating == true)
+        {
+            RotateTrap();
+        }
+
+        if (isCollision == true)
+        {
+            canPlace = false;
         }
     }
 }

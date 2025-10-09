@@ -18,7 +18,7 @@ public class ObjectPool : MonoBehaviour
 
     private GameObject CreateNewObject()
     {
-        GameObject obj = Instantiate(prefab, transform);
+        GameObject obj = Instantiate(prefab);
         obj.SetActive(false);
 
         // プール情報を登録（戻るため）

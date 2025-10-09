@@ -102,7 +102,10 @@ public class PlayerController : MonoBehaviour
     public void OnMove(InputAction.CallbackContext context)
     {
         //入力値を保持
-        inputMove = context.ReadValue<Vector2>();
+        if (context.performed==false)
+        {
+            inputMove = context.ReadValue<Vector2>();
+        }
         //Debug.Log(inputMove);
     }
 
