@@ -1,9 +1,11 @@
 using UnityEngine;
 
-public class Inspection : MonoBehaviour
+public class EnemyManager : MonoBehaviour
 {
-    [SerializeField]
-    private Collider Boxcollider;
+    [SerializeField] PlayerController player;
+    [SerializeField] GameObject ruin;
+    public GameObject OriginTarget => ruin;
+    public PlayerController GetPlayer => player;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -13,7 +15,6 @@ public class Inspection : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        bool tf = Boxcollider.enabled;
-        //Debug.Log($"{gameObject.name} //{tf}");
+        
     }
 }

@@ -9,11 +9,11 @@ public class PoolType
 }
 public class PoolManager : MonoBehaviour
 {
-    //public List<PoolType> enemies;
+    public List<PoolType> enemies;
     public List<PoolType> traps;
 
     // “G‚ð–¼‘O‚ÅŽæ“¾
-    /*public GameObject GetEnemy(string name)
+    public GameObject GetEnemy(string name)
     {
         var type = enemies.Find(e => e.name == name);
         if (type != null)
@@ -23,7 +23,7 @@ public class PoolManager : MonoBehaviour
         Debug.LogWarning($"Enemy '{name}' not found in pool!");
         return null;
     }
-    */
+    
 
     // ã©‚ð–¼‘O‚ÅŽæ“¾
     public GameObject GetTrap(string name)

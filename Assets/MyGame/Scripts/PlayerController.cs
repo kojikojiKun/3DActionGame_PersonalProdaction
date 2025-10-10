@@ -120,6 +120,7 @@ public class PlayerController : MonoBehaviour
             speedDown = true;
         }
         
+        //ガード解除.
         if(isGuard==false)
         {
             speed = defaultSpeed;
@@ -378,16 +379,6 @@ public class PlayerController : MonoBehaviour
 
         LevelUp.instance.player = gameObject;
         SetStatus();
-    }
-
-    private void OnTriggerEnter(Collider other)
-    {
-        //敵キャラクターの攻撃判定に接触するとダメージを受ける
-        if (other.CompareTag("EnemyAttackCollider"))
-        {
-            EnemyStatus enemyStatus = other.GetComponentInParent<EnemyStatus>();
-            if (playerTookDmg == false) TakeDamage(enemyStatus.attackPower);          
-        }
     }
 
     // Update is called once per frame

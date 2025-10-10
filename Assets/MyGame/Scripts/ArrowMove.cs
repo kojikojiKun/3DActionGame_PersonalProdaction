@@ -24,8 +24,8 @@ public class ArrowMove : MonoBehaviour
     {
         if (other.gameObject.layer == LayerMask.NameToLayer("Enemy"))
         {
-            EnemyStatus enemyStatus = other.GetComponent<EnemyStatus>();
-            enemyStatus.TakeDamageEnemy(arrowDamage);
+            
+           
             Destroy(gameObject);
         }
         else if(other.gameObject.layer == LayerMask.NameToLayer("Field"))
