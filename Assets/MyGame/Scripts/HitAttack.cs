@@ -25,7 +25,7 @@ public class HitAttack : MonoBehaviour
         if (attackColliderDictionary.TryGetValue(animName, out int index))
         {          
             dmgMultipul = playerController.comboDmgMultipul[index];
-           // Debug.Log($"animName{animName} index{index} dmgMultipul{dmgMultipul}");
+            Debug.Log($"animName{animName} index{index} dmgMultipul{dmgMultipul}");
         }
 
         if (attackColliderDictionary.ContainsKey(animName))
@@ -42,7 +42,7 @@ public class HitAttack : MonoBehaviour
 
         if(attackColliderDictionary.TryGetValue(animName,out int index))
         {
-            //Debug.Log($"animName{animName} index{index}");
+            Debug.Log($"animName{animName} index{index}");
         }
 
         if (attackColliderDictionary.ContainsKey(animName))

@@ -1,5 +1,6 @@
 using UnityEngine;
 
+//プールで生成するオブジェクトにアタッチ.
 public class PooledObject : MonoBehaviour
 {
     private ObjectPool pool;

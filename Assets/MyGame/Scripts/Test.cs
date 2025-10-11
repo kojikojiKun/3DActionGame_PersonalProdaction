@@ -2,27 +2,12 @@ using UnityEngine;
 
 public class Test : MonoBehaviour
 {
-    public PoolManager poolManager;
-    private float timer;
-    private bool spowned = false;
-    void Update()
+    private void OnTriggerEnter(Collider other)
     {
-        if (timer > 5 && spowned==false) // „©ÉXÉ|Å[Éì
+        if (other.CompareTag("enemy"))
         {
-            GameObject trap = poolManager.GetTrap("Item");
-            trap.transform.position = GetTrapPosition();
-            spowned = true;
+            EnemyControl enemy=other.GetComponent<EnemyControl>();
+            enemy.TakeDamage(1);
         }
-
-    }
-
-    Vector3 GetRandomPosition()
-    {
-        return new Vector3(Random.Range(-5f, 5f), 0, Random.Range(-5f, 5f));
-    }
-
-    Vector3 GetTrapPosition()
-    {
-        return new Vector3(Random.Range(-3f, 3f), 0, Random.Range(-3f, 3f));
     }
 }

@@ -17,7 +17,7 @@ public class EnemyData : ScriptableObject
     public bool isBoss;
     public float hp;
     public float attackPower;
-    public float diffencePower;
+    [Range(0,1)] public float diffencePower;
     public int dropRedExpValue;
     public int dropYellowExpValue;
     public int dropGreenExpValue;

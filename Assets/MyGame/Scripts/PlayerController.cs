@@ -17,7 +17,6 @@ public class PlayerController : MonoBehaviour
     private WhichTypeOfCharacter type;
     [HideInInspector]
     public string id;
-    [HideInInspector]
     public float hp;
     [HideInInspector]
     public float speed;
@@ -96,6 +95,10 @@ public class PlayerController : MonoBehaviour
             Debug.Log(type);
             Debug.Log($"HP:{hp}//SP{speed}//AS{attackSpeed}//AP{attackPower}");
         }
+
+        hp = 100;
+        attackPower = 1;
+        speed=1;
     }
 
     //プレイヤーの移動アクション

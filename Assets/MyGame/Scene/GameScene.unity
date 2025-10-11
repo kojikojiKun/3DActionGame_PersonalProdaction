@@ -3374,6 +3374,7 @@ GameObject:
   m_Component:
   - component: {fileID: 335519209}
   - component: {fileID: 335519210}
+  - component: {fileID: 335519211}
   m_Layer: 8
   m_Name: PlayerAttackRange
   m_TagString: PlayerAttackRange
@@ -3417,6 +3418,18 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 0.64, y: 1, z: 1.5841111}
   m_Center: {x: -0.09, y: -1.4623952e-10, z: 0.060386065}
+--- !u!114 &335519211
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 335519208}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7eb560769a64d7e41ba195df50681527, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Test
 --- !u!4 &337134809 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 7104217533622820475, guid: f66a4f7d1e88dc44ebf82558ef533bcd, type: 3}
@@ -6049,6 +6062,63 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BreakBuildObject
   hp: 3
+--- !u!1001 &582612435
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 1589940612785128374, guid: 640ac0e6b8c69e24e934e0f70884fed1, type: 3}
+      propertyPath: m_Name
+      value: ExpSmall
+      objectReference: {fileID: 0}
+    - target: {fileID: 2115366074319247628, guid: 640ac0e6b8c69e24e934e0f70884fed1, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 112.25802
+      objectReference: {fileID: 0}
+    - target: {fileID: 2115366074319247628, guid: 640ac0e6b8c69e24e934e0f70884fed1, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 2.305912
+      objectReference: {fileID: 0}
+    - target: {fileID: 2115366074319247628, guid: 640ac0e6b8c69e24e934e0f70884fed1, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 108.14564
+      objectReference: {fileID: 0}
+    - target: {fileID: 2115366074319247628, guid: 640ac0e6b8c69e24e934e0f70884fed1, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2115366074319247628, guid: 640ac0e6b8c69e24e934e0f70884fed1, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2115366074319247628, guid: 640ac0e6b8c69e24e934e0f70884fed1, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2115366074319247628, guid: 640ac0e6b8c69e24e934e0f70884fed1, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2115366074319247628, guid: 640ac0e6b8c69e24e934e0f70884fed1, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2115366074319247628, guid: 640ac0e6b8c69e24e934e0f70884fed1, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2115366074319247628, guid: 640ac0e6b8c69e24e934e0f70884fed1, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 640ac0e6b8c69e24e934e0f70884fed1, type: 3}
 --- !u!4 &586317784 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4252784401376168, guid: 22a3fd8d3e59a1149bdcd775c0e87241, type: 3}
@@ -8092,6 +8162,7 @@ GameObject:
   m_Component:
   - component: {fileID: 821798696}
   - component: {fileID: 821798697}
+  - component: {fileID: 821798698}
   m_Layer: 8
   m_Name: PlayerAttackRange2
   m_TagString: PlayerAttackRange
@@ -8135,6 +8206,18 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1.6751633, y: 1, z: 1.6462314}
   m_Center: {x: -0.22359848, y: 7.306594e-11, z: -0.04080108}
+--- !u!114 &821798698
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 821798695}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7eb560769a64d7e41ba195df50681527, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Test
 --- !u!4 &821990765 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8565910320893362972, guid: 4340f4c2a8d13cf4b82d9438b74c6a67, type: 3}
@@ -11441,7 +11524,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerController
   id: 
-  hp: 0
+  hp: 111
   speed: 0
   attackSpeed: 0
   attackPower: 0
@@ -11516,7 +11599,7 @@ MonoBehaviour:
       value: 1
     - key: HumanM@AttackShield01
       value: 2
-  playerController: {fileID: 0}
+  playerController: {fileID: 1184498613}
   dmgMultipul: 0
 --- !u!1 &1186393116 stripped
 GameObject:
@@ -13377,6 +13460,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1367474022}
   - component: {fileID: 1367474023}
+  - component: {fileID: 1367474024}
   m_Layer: 8
   m_Name: PlayerAttackRange1
   m_TagString: PlayerAttackRange
@@ -13420,6 +13504,18 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1.6751633, y: 1, z: 1.6462314}
   m_Center: {x: -0.22359848, y: 7.306594e-11, z: -0.04080108}
+--- !u!114 &1367474024
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1367474021}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7eb560769a64d7e41ba195df50681527, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Test
 --- !u!1 &1380349785 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 1069567032315564, guid: bdf8e7438a7816543998181bd3067573, type: 3}
@@ -17560,6 +17656,7 @@ GameObject:
   - component: {fileID: 1741829657}
   - component: {fileID: 1741829662}
   - component: {fileID: 1741829663}
+  - component: {fileID: 1741829664}
   m_Layer: 7
   m_Name: mushroom
   m_TagString: enemy
@@ -17691,11 +17788,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyControl
   m_manager: {fileID: 1893536634}
+  m_pooledObject: {fileID: 1741829664}
   m_agent: {fileID: 1741829657}
   m_enemyAnimation: {fileID: 1741829663}
+  m_enemyColider: {fileID: 1741829659}
   m_attackCol: {fileID: 1581398249}
   m_data: {fileID: 11400000, guid: b1d55c2a16405374eab34723389b97d1, type: 2}
-  m_coolDown: 5
 --- !u!114 &1741829663
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -17710,6 +17808,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::EnemyAnimation
   animator: {fileID: 1741829660}
   attackCoolDown: 3
+  playDmgAnimCnt: 1
+--- !u!114 &1741829664
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1741829656}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a288be99cd332cb4483cd186819026e0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PooledObject
 --- !u!1001 &1742674426
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -23947,3 +24058,4 @@ SceneRoots:
   - {fileID: 1851995180}
   - {fileID: 751572416}
   - {fileID: 987401752}
+  - {fileID: 582612435}

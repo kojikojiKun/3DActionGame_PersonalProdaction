@@ -5,9 +5,8 @@ public class Wave : ScriptableObject
 {
     //public int waveId;
 
-    public GameObject boss; //ウェーブの最後に出てくるボス
-
-    public GameObject[] enemies; //ウェーブ中に出てくる通常の敵
+    public ObjectPool[] bossPool;
+    public ObjectPool[] enemyPool;
 
     public int spownEnemyLimit; //ウェーブ中に出てくる敵の数
 
