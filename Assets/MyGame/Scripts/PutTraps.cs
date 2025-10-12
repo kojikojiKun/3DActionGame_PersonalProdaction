@@ -5,7 +5,7 @@ public class PutTraps : MonoBehaviour
 {
     //InputSystems
     [SerializeField] InputActionReference trapAction;
-    [SerializeField] InputActionReference rotateTrap;
+    //[SerializeField] InputActionReference rotateTrap;
 
     [SerializeField] GameObject player;
     [SerializeField] ObjectPool[] trapPools; // トラップ用プール
@@ -31,14 +31,10 @@ public class PutTraps : MonoBehaviour
     private void OnEnable()
     {
         trapAction.action.actionMap.Enable();
-        rotateTrap.action.performed += OnRotateTrap;
-        rotateTrap.action.canceled += OnRotateTrap;
     }
     void OnDisable()
     {
         trapAction.action.actionMap.Disable();
-        rotateTrap.action.performed -= OnRotateTrap;
-        rotateTrap.action.canceled -= OnRotateTrap;
     }
 
     //マウスミドルボタンスクロールでトラップの種類選択
