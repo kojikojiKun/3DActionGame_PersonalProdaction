@@ -15,9 +15,11 @@ public class EnemySpawner : MonoBehaviour
     private float m_interval; //敵の出現間隔.
     private float m_bossSpawnTime; //ボスが出現するまでの時間.
     private float timer; //経過時間を記録.
-    private bool m_waveFinised; //ウェーブ終了フラグ.
+    private bool m_waveFinised; //ウェーブ終了フラグ. 
     private bool m_isSpawned; //敵の出現フラグ.
     private bool m_isSpawnedBoss; //ボスの出現フラグ.
+
+    public bool GetWaveFinished => m_waveFinised;
 
     void SetWaveContent()
     {

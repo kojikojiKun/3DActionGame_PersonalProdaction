@@ -4,13 +4,15 @@ using UnityEngine.InputSystem;
 public class PlayerController : MonoBehaviour
 {
     [SerializeField] GameManager m_gameManger;
+    [SerializeField] PutTraps m_putTraps;
     [SerializeField] InputActionReference m_playerAction;
     private float m_HP;
     private float m_AG;
     private float m_AS;
     private float m_ATK;
     private bool m_isMove;
-    Vector2 moveInput;
+    Vector2 m_moveInput;
+
     private void OnEnable()
     {
         m_playerAction.action.actionMap.Enable();
@@ -26,7 +28,7 @@ public class PlayerController : MonoBehaviour
         if (context.started || context.performed)
         {
             m_isMove = true;
-            moveInput=context.ReadValue<Vector2>();
+            m_moveInput=context.ReadValue<Vector2>();
         }
         else if (context.canceled)
         {
@@ -53,6 +55,14 @@ public class PlayerController : MonoBehaviour
         if (context.started)
         {
             Debug.Log("attakicng");
+        }
+    }
+
+    public void OnChangeMode(InputAction.CallbackContext context)
+    {
+        if (context.started)
+        {
+            m_putTraps.ModeChange();
         }
     }
 
