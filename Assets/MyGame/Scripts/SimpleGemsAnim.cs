@@ -42,7 +42,7 @@ namespace Benjathemaker
         {
             rb = GetComponent<Rigidbody>();
             defaultFloatSpeed = floatSpeed;
-            target = PlayerController.instance.gameObject;
+           // target = PlayerController.instance.gameObject;
             Injection();
         }
 

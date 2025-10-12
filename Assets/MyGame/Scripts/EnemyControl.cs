@@ -93,7 +93,7 @@ public class EnemyControl : MonoBehaviour
         float dmg = damage * m_diffence;
         m_HP -= dmg;
         m_enemyAnimation.DamageAnim();
-        //HPが0二なったとき.
+        //HPが0になったとき.
         if (m_HP <= 0)
         {
             m_HP = 0; //0以下にならないようにする.
@@ -105,7 +105,7 @@ public class EnemyControl : MonoBehaviour
     void Dead()
     {  
         m_enemyColider.enabled=false; //コライダー無効化.
-        m_enemyAnimation.DeadAnim();
+        m_enemyAnimation.DeadAnim(); //死亡アニメーション再生
         //プールに戻す.
         StartCoroutine(WaitReturnPool());
     }

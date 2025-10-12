@@ -17,7 +17,7 @@ public class DamagePlayer : MonoBehaviour
     {    
         if (other.CompareTag("Player"))
         {
-            player.TakeDamage(m_power);
+           // player.TakeDamage(m_power);
         }
 
         if (other.CompareTag("Trap"))

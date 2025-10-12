@@ -12,9 +12,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fac7f92284261144ca06f967befaafad, type: 3}
   m_Name: Wave
   m_EditorClassIdentifier: Assembly-CSharp::Wave
-  boss: {fileID: 513366975941563358, guid: 5c738eedf20c53f49bef1e6d95a63988, type: 3}
-  enemies:
-  - {fileID: 7989771867285160666, guid: dd308a780602d1a45b3c2adc171a1bd6, type: 3}
+  bossPool:
+  - {fileID: 1786180461569530514, guid: 2fb8c81d24462b94ab489d2acd1e5c00, type: 3}
+  - {fileID: 1786180461569530514, guid: 2fb8c81d24462b94ab489d2acd1e5c00, type: 3}
+  - {fileID: 1786180461569530514, guid: 2fb8c81d24462b94ab489d2acd1e5c00, type: 3}
+  enemyPool:
+  - {fileID: 1786180461569530514, guid: 2fb8c81d24462b94ab489d2acd1e5c00, type: 3}
+  - {fileID: 1786180461569530514, guid: 2fb8c81d24462b94ab489d2acd1e5c00, type: 3}
+  - {fileID: 1786180461569530514, guid: 2fb8c81d24462b94ab489d2acd1e5c00, type: 3}
   spownEnemyLimit: 10
   spownInterval: 1
   spownBossTime: 25

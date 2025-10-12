@@ -4,10 +4,7 @@ using UnityEngine.InputSystem;
 public class PutTraps : MonoBehaviour
 {
     //InputSystems
-    [SerializeField] InputActionReference clickAction;
-    [SerializeField] InputActionReference scrollAction;
-    [SerializeField] InputActionReference mousePosition;
-    [SerializeField] InputActionReference buttonDown;
+    [SerializeField] InputActionReference trapAction;
     [SerializeField] InputActionReference rotateTrap;
 
     [SerializeField] GameObject player;
@@ -33,21 +30,13 @@ public class PutTraps : MonoBehaviour
 
     private void OnEnable()
     {
-        clickAction.action.Enable();
-        scrollAction.action.Enable();
-        mousePosition.action.Enable();
-        buttonDown.action.Enable();
-        rotateTrap.action.Enable();
+        trapAction.action.actionMap.Enable();
         rotateTrap.action.performed += OnRotateTrap;
         rotateTrap.action.canceled += OnRotateTrap;
     }
     void OnDisable()
     {
-        clickAction.action.Disable();
-        scrollAction.action.Disable();
-        mousePosition.action.Disable();
-        buttonDown.action.Disable();
-        rotateTrap.action.Disable();
+        trapAction.action.actionMap.Disable();
         rotateTrap.action.performed -= OnRotateTrap;
         rotateTrap.action.canceled -= OnRotateTrap;
     }

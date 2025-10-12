@@ -3,6 +3,7 @@ using UnityEngine;
 public class EnemyManager : MonoBehaviour
 {
     [SerializeField] PlayerController player;
+    [SerializeField] EnemySpawner spawner;
     [SerializeField] GameObject ruin;
     public GameObject OriginTarget => ruin;
     public PlayerController GetPlayer => player;
@@ -12,6 +13,15 @@ public class EnemyManager : MonoBehaviour
         
     }
 
+    void StartWave()
+    {
+
+    }
+
+    void FinishWave()
+    {
+
+    }
     // Update is called once per frame
     void Update()
     {
