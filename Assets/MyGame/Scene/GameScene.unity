@@ -7443,7 +7443,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &704042450
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7456,6 +7456,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 87c9bb4d73eb3ed42a0d7d708fe44329, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemySpawner
+  m_originTarget: {fileID: 1948772352}
+  m_gameManager: {fileID: 0}
   m_waves:
   - {fileID: 11400000, guid: a1252cd015b28424087b04f96c5ebb58, type: 2}
   - {fileID: 11400000, guid: c898568f9ac081e429d78e30f146ff25, type: 2}
@@ -8663,7 +8665,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &820890178
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8676,12 +8678,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fbb18047ca375da4f81f7fd1b777c2cd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GameManager
+  m_poolManager: {fileID: 1629858085}
   m_playerPrefab:
   - {fileID: 2098881341}
   - {fileID: 2098881341}
   - {fileID: 2098881341}
-  m_puttraps: {fileID: 0}
-  m_enemySpawner: {fileID: 0}
+  m_enemySpawner: {fileID: 704042450}
+  m_puttraps: {fileID: 6893614426263239575}
   m_playerSpawnPos: {fileID: 616690959}
 --- !u!114 &820890179
 MonoBehaviour:
@@ -8695,9 +8698,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5f6047aaa41d4874ebe37746d1b009c3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyManager
-  player: {fileID: 2098881341}
-  spawner: {fileID: 704042450}
-  ruin: {fileID: 1948772352}
 --- !u!4 &820890180
 Transform:
   m_ObjectHideFlags: 0
@@ -16389,10 +16389,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d418ebe63a3688541915faecbacfbff2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PoolManager
-  enemies:
-  - name: Mushroom
-    pool: {fileID: 1365319907}
-  traps:
+  enemyPools:
+  - name: 
+    pool: {fileID: 0}
+  trapPools:
   - name: Fire
     pool: {fileID: 612356980}
   - name: CrossBow
@@ -17566,7 +17566,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bbd147e8778e4924587498fe3b72ec74, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyControl
-  m_manager: {fileID: 0}
+  m_spawner: {fileID: 0}
   m_pooledObject: {fileID: 1741829657}
   m_agent: {fileID: 1741829660}
   m_enemyAnimation: {fileID: 1741829658}
@@ -21772,6 +21772,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Player
       objectReference: {fileID: 0}
+    - target: {fileID: 5409903757252883963, guid: aac2ecc4316feb1469832faad089aaf3, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5938501978324748241, guid: aac2ecc4316feb1469832faad089aaf3, type: 3}
       propertyPath: m_LocalPosition.x
       value: 110.368835
@@ -21915,10 +21919,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PutTraps
   trapAction: {fileID: 2624460731081497113, guid: 052faaac586de48259a63d0c4782560b, type: 3}
-  m_player: {fileID: 0}
-  m_trapPools: []
-  m_previewTrapPrefab: []
-  m_prevMaterial: {fileID: 0}
+  m_gameManager: {fileID: 820890178}
+  m_poolManager: {fileID: 1629858085}
+  m_previewTrapPrefab:
+  - {fileID: 3998317008809456835, guid: 15f700a8f20bac44684a8421b8b60ad6, type: 3}
+  - {fileID: 1544929629709357950, guid: 7a69b7685e0e2ac44972651895b1f570, type: 3}
+  - {fileID: 2656546476268581722, guid: 2e11ad3234019174980440043212c273, type: 3}
+  - {fileID: 2009407959295534225, guid: 3320ada54cb9d974584337ab20b906a0, type: 3}
+  m_prevMaterial: {fileID: 2100000, guid: d8ed616961e86404eb84d4156bcc3579, type: 2}
   m_rotateSpeed: 0
   m_maxPlaceDistance: 0
   m_fieldMask:
@@ -21940,13 +21948,13 @@ SceneRoots:
   - {fileID: 1741829664}
   - {fileID: 1851995180}
   - {fileID: 751572416}
-  - {fileID: 1961407056}
-  - {fileID: 1629858084}
   - {fileID: 612356981}
   - {fileID: 691004072}
   - {fileID: 705308500}
   - {fileID: 1087023091}
   - {fileID: 1365319908}
+  - {fileID: 1961407056}
   - {fileID: 5932466475373084913}
   - {fileID: 820890180}
+  - {fileID: 1629858084}
   - {fileID: 6443635675521443415}

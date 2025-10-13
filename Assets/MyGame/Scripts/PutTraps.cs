@@ -6,9 +6,11 @@ public class PutTraps : MonoBehaviour
     //InputSystems
     [SerializeField] InputActionReference trapAction;
     //[SerializeField] InputActionReference rotateTrap;
-
-    [SerializeField] GameObject m_player;
-    [SerializeField] ObjectPool[] m_trapPools; // トラップ用プール
+ 
+    [SerializeField] GameManager m_gameManager;
+    [SerializeField] PoolManager m_poolManager;
+    private PlayerController m_playerController;
+    private string[] m_trapName = new string[4]{"Fire","CrossBow","Blade","Spike"};
     [SerializeField] GameObject[] m_previewTrapPrefab; //トラップの設置プレビュー用オブジェクト
     [SerializeField] Material m_prevMaterial;
     private GameObject[] m_prevInstance;
@@ -108,7 +110,7 @@ public class PutTraps : MonoBehaviour
             m_trapIndex++;
             Debug.Log(m_trapIndex);
             m_nextAllowTime = Time.time + m_scrollCoolDown;
-            if (m_trapIndex >= m_trapPools.Length)
+            if (m_trapIndex >= m_previewTrapPrefab.Length)
             {
                 m_trapIndex = 0;
             }
@@ -116,7 +118,7 @@ public class PutTraps : MonoBehaviour
             //現在のトラップの一つ前のプレビューを非表示
             if (m_trapIndex == 0)
             {
-                m_prevInstance[m_prevInstance.Length - 1].SetActive(false);
+                m_prevInstance[m_previewTrapPrefab.Length - 1].SetActive(false);
             }
             else
             {
@@ -132,11 +134,11 @@ public class PutTraps : MonoBehaviour
             m_nextAllowTime = Time.time + m_scrollCoolDown;
             if (m_trapIndex < 0)
             {
-                m_trapIndex = m_trapPools.Length - 1;
+                m_trapIndex = m_previewTrapPrefab.Length - 1;
             }
 
             //現在のトラップの一つ前のプレビューを非表示
-            if (m_trapIndex == m_prevInstance.Length - 1)
+            if (m_trapIndex == m_previewTrapPrefab.Length - 1)
             {
                 m_prevInstance[0].SetActive(false);
             }
@@ -154,7 +156,7 @@ public class PutTraps : MonoBehaviour
     public void OnMoveTrap(InputAction.CallbackContext context)
     {
         Vector2 pos = Mouse.current.position.ReadValue(); //マウスカーソルの座標を取得
-        Vector3 origin = m_player.transform.position; //プレイヤーの座標
+        Vector3 origin = m_playerController.transform.position; //プレイヤーの座標
         Ray ray = Camera.main.ScreenPointToRay(pos); //カメラからray発射
         if (Physics.Raycast(ray, out RaycastHit hit, 500, m_fieldMask)) //地面にrayヒット
         {
@@ -216,7 +218,7 @@ public class PutTraps : MonoBehaviour
     //トラップを設置する
     void SucceedPlaceTrap()
     {
-        GameObject trap = m_trapPools[m_trapIndex].GetObject(); //トラップをプールから取り出す
+        GameObject trap = m_poolManager.GetTrap(m_trapName[m_trapIndex]); //トラップをプールから取り出す
         m_prevInstance[m_trapIndex].SetActive(false); //プレビュー非表示
         trap.SetActive(true);
         trap.transform.rotation = m_lastPreviewPos.localRotation;
@@ -225,27 +227,35 @@ public class PutTraps : MonoBehaviour
     }
 
     //トラップ設置モードを切り替え
-    public void ModeChange()
+    public void ModeChange(bool canChange)
     {
-        m_buildMode = !m_buildMode;
-
-        if (m_buildMode == true)
+        if (canChange == true)
         {
-            m_prevInstance[m_trapIndex].SetActive(true);
+            m_buildMode = !m_buildMode;
+
+            if (m_buildMode == true)
+            {
+                m_prevInstance[m_trapIndex].SetActive(true);
+            }
+            else
+            {
+                m_prevInstance[m_trapIndex].SetActive(false);
+            }
         }
         else
         {
+            m_buildMode = false;
             m_prevInstance[m_trapIndex].SetActive(false);
         }
-
         Debug.Log(m_buildMode);
     }
 
     private void Start()
     {
-        m_prevInstance = new GameObject[m_trapPools.Length];
-        m_prevCollider = new Collider[m_trapPools.Length];
-        for (int i = 0; i < m_trapPools.Length; i++)
+        m_playerController = m_gameManager.GetPlayer;
+        m_prevInstance = new GameObject[m_previewTrapPrefab.Length];
+        m_prevCollider = new Collider[m_previewTrapPrefab.Length];
+        for (int i = 0; i < m_previewTrapPrefab.Length; i++)
         {
             m_prevInstance[i] = Instantiate(m_previewTrapPrefab[i]);
             m_prevCollider[i] = m_prevInstance[i].GetComponent<Collider>();

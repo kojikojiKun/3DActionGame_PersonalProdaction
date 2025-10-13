@@ -4,14 +4,17 @@ using UnityEngine;
 
 public class EnemySpawner : MonoBehaviour
 {
+    [SerializeField] GameObject m_originTarget;
+    [SerializeField] GameManager m_gameManager;
     [SerializeField] Wave[] m_waves;
     [SerializeField] GameObject m_centerSpown;
     [SerializeField] private float m_radius;
-    private ObjectPool[] m_bossPools;
-    private ObjectPool[] m_enemyPools;
+    //private ObjectPool[] m_bossPools;
+    //private ObjectPool[] m_enemyPools;
     private int m_waveIndex; //開始するウェーブの種類.
     private int m_enemyLimit; //敵の出現上限.
-    private int m_enemyCount; //敵の出現回数
+    private int m_enemyCount; //敵の出現回数.
+    private int m_aliveEnemyCnt; //生存している敵の数.
     private float m_interval; //敵の出現間隔.
     private float m_bossSpawnTime; //ボスが出現するまでの時間.
     private float timer; //経過時間を記録.
@@ -21,10 +24,13 @@ public class EnemySpawner : MonoBehaviour
 
     public bool GetWaveFinished => m_waveFinised;
 
-    void SetWaveContent()
+    public GameObject GetOriginTarget=>m_originTarget;
+    public PlayerController GetPlayerController => m_gameManager.GetPlayer;
+
+    public void SetWaveContent()
     {
-        m_bossPools=new ObjectPool[m_waves[m_waveIndex].bossPool.Length];
-        m_enemyPools=new ObjectPool[m_waves[m_waveIndex].enemyPool.Length];
+        m_bossPools = new ObjectPool[m_waves[m_waveIndex].bossPool.Length];
+        m_enemyPools = new ObjectPool[m_waves[m_waveIndex].enemyPool.Length];
         //ボスのプールをセット.
         for (int i = 0; i < m_waves[m_waveIndex].bossPool.Length; i++)
         {
@@ -37,14 +43,15 @@ public class EnemySpawner : MonoBehaviour
             m_enemyPools[i] = m_waves[m_waveIndex].enemyPool[i];
         }
 
-        m_enemyCount = 0;
-        m_isSpawned = true;
-        m_isSpawnedBoss = false;
-        timer = 0;
-
         m_enemyLimit = m_waves[m_waveIndex].spownEnemyLimit;
         m_interval = m_waves[m_waveIndex].spownInterval;
         m_bossSpawnTime = m_waves[m_waveIndex].spownBossTime;
+
+        m_enemyCount = 0;
+        m_isSpawned = true;
+        m_isSpawnedBoss = false;
+        m_waveFinised = false;
+        timer = 0;
     }
 
     private IEnumerator Spawn()
@@ -65,6 +72,7 @@ public class EnemySpawner : MonoBehaviour
             GameObject enemy = m_enemyPools[random].GetObject(); //プールから取り出す.
             enemy.transform.position = spawnPos; //敵の位置を円周上に配置.
             m_enemyCount++;
+            m_aliveEnemyCnt++;
             yield return new WaitForSeconds(m_interval); //m_interval秒待機
 
             m_isSpawned = true;
@@ -86,26 +94,26 @@ public class EnemySpawner : MonoBehaviour
 
             GameObject boss = bossPool.GetObject();
             boss.transform.position = spawnPos;
+
+            m_aliveEnemyCnt++;
         }
 
         m_isSpawnedBoss = true;
     }
 
-    public void StartWave()
+    public void EnemyKilled()
     {
-        m_waveFinised = false;
-        SetWaveContent();
-    }
+        m_aliveEnemyCnt--;
 
-    public void FinishWave()
-    {
-        m_waveFinised = true;
+        if (m_aliveEnemyCnt <= 0)
+        {
+            m_waveFinised = true;
+        }
     }
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        StartWave();
     }
 
     // Update is called once per frame

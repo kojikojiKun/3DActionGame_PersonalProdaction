@@ -5,7 +5,7 @@ using System.Collections;
 
 public class EnemyControl : MonoBehaviour
 {
-    [SerializeField] EnemyManager m_manager;
+    [SerializeField] EnemySpawner m_spawner;
     [SerializeField] PooledObject m_pooledObject;
     [SerializeField] NavMeshAgent m_agent;
     [SerializeField] EnemyAnimation m_enemyAnimation;
@@ -15,7 +15,7 @@ public class EnemyControl : MonoBehaviour
     private GameObject m_originTarget;
     private PlayerController m_player;
     public PlayerController GetPlayer => m_player;
-    public GameObject OriginTarget => m_originTarget;
+    public GameObject GetOriginTarget => m_originTarget;
 
     //敵のステータス
     private GameObject m_target;
@@ -34,8 +34,8 @@ public class EnemyControl : MonoBehaviour
     void Initialize()
     {
         m_enemyColider.enabled=true; //コライダー有効化.
-        m_originTarget = m_manager.OriginTarget; //初期ターゲットを設定.
-        m_player = m_manager.GetPlayer;
+        m_originTarget = m_spawner.GetOriginTarget; //初期ターゲットを設定.
+        m_player = m_spawner.GetPlayerController;
 
         //ステータス初期化
         m_HP = m_data.hp;
@@ -103,7 +103,8 @@ public class EnemyControl : MonoBehaviour
 
     //敵の死亡処理.
     void Dead()
-    {  
+    {
+        m_spawner.EnemyKilled();
         m_enemyColider.enabled=false; //コライダー無効化.
         m_enemyAnimation.DeadAnim(); //死亡アニメーション再生
         //プールに戻す.

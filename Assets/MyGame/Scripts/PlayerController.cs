@@ -62,7 +62,8 @@ public class PlayerController : MonoBehaviour
     {
         if (context.started)
         {
-            m_putTraps.ModeChange();
+            bool isWaveFinished = m_gameManger.IsWaveFinished();
+            m_putTraps.ModeChange(isWaveFinished);
         }
     }
 
