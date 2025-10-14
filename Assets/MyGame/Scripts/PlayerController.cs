@@ -38,7 +38,7 @@ public class PlayerController : MonoBehaviour
 
     void Moving()
     {
-
+        Debug.Log(m_moveInput.sqrMagnitude);
     }
 
 
@@ -82,6 +82,7 @@ public class PlayerController : MonoBehaviour
     {
         if (m_isMove)
         {
+            Moving();
         }
     }
 }

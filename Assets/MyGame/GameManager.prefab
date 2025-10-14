@@ -1,0 +1,67 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &8364875088736614539
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 3153154834635221407}
+  - component: {fileID: 8422422465647982124}
+  - component: {fileID: 8412944825047300008}
+  m_Layer: 0
+  m_Name: GameManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &3153154834635221407
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8364875088736614539}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 88.60134, y: 1.40212, z: 77.13725}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &8422422465647982124
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8364875088736614539}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5f6047aaa41d4874ebe37746d1b009c3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EnemyManager
+--- !u!114 &8412944825047300008
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8364875088736614539}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fbb18047ca375da4f81f7fd1b777c2cd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::GameManager
+  m_poolManager: {fileID: 7033583161269749252, guid: 4dd19f3b57e5b394e949e38241eb5b92, type: 3}
+  m_playerPrefab:
+  - {fileID: 479472530178501737, guid: 70dc92fe5cfbdfb469f98fa8b3190519, type: 3}
+  - {fileID: 479472530178501737, guid: 70dc92fe5cfbdfb469f98fa8b3190519, type: 3}
+  - {fileID: 479472530178501737, guid: 70dc92fe5cfbdfb469f98fa8b3190519, type: 3}
+  m_enemySpawner: {fileID: 5331563897381252742, guid: 91380afd3f5bb8442955018dd5c89a7e, type: 3}
+  m_putTraps: {fileID: 8400120427811046232, guid: f0b40e3c65648ab4eb1db277322715b8, type: 3}
+  m_playerSpawnPos: {fileID: 3385806093794213091, guid: 4dd19f3b57e5b394e949e38241eb5b92, type: 3}

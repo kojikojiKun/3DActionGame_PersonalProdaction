@@ -7,7 +7,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] PoolManager m_poolManager;
     [SerializeField] PlayerController[] m_playerPrefab;
     [SerializeField] EnemySpawner m_enemySpawner;
-    [SerializeField] PutTraps m_puttraps;
+    [SerializeField] PutTraps m_putTraps;
     private int m_playerIndex;
     [SerializeField] Transform m_playerSpawnPos;
     private PlayerController m_playerController;
@@ -18,6 +18,7 @@ public class GameManager : MonoBehaviour
     private float m_playerAS;
 
     public PlayerController GetPlayer=>m_playerController;
+    public PoolManager GetPoolManager => m_poolManager;
     public float getHp => m_playerHP;
     public float getAG => m_playerAG;
     public float getATK => m_playerATK;
@@ -43,12 +44,15 @@ public class GameManager : MonoBehaviour
                 m_playerIndex = 2;
                 break;
         }
+
+        PlayerController player = Instantiate(m_playerPrefab[m_playerIndex], m_playerSpawnPos.position, Quaternion.identity);
+        m_playerController = player;
     }
 
     //ウェーブ開始
     public void StartWave()
     {
-        m_puttraps.ModeChange(false); //トラップ設置を不可能にする.
+        m_putTraps.ModeChange(false); //トラップ設置を不可能にする.
         m_enemySpawner.SetWaveContent();
     }
 
@@ -61,9 +65,7 @@ public class GameManager : MonoBehaviour
     void Start()
     {
         SetPlayerStatus();
-        PlayerController player = Instantiate(m_playerPrefab[m_playerIndex], m_playerSpawnPos.position, Quaternion.identity);
-        m_playerController=player;
-        StartWave();
+        m_putTraps.ReceivePlayer(GetPlayer);
     }
 
     // Update is called once per frame

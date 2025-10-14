@@ -1,0 +1,90 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &602466359222470416
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4933045315110258632}
+  - component: {fileID: 1091502149912490271}
+  - component: {fileID: 8400120427811046232}
+  m_Layer: 0
+  m_Name: TrapManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4933045315110258632
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 602466359222470416}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 116.99237, y: 1.57747, z: 81.50867}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1091502149912490271
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 602466359222470416}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 150345f9688e91547bf0f1e3fcfe82a8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::TrapStaus
+  particleStartSpeed: 20
+  shotFireInterval: 5
+  shotFireDuration: 3
+  fireDamageInterval: 0.5
+  fireDamage: 0.5
+  shotArrowInterval: 1
+  arrowDamage: 2
+  crossBowRange: 10
+  spreadAngle: 30
+  numOfArrow: 1
+  bladeSize: 1.5
+  bladeSpeed: 5
+  bladeDamageInterval: 0
+  bladeDamage: 0
+  wallDurability: 30
+  spikeDamage: 5
+--- !u!114 &8400120427811046232
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 602466359222470416}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 96ee64eb6fd932144a54ad04027903c0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PutTraps
+  trapAction: {fileID: 2624460731081497113, guid: 052faaac586de48259a63d0c4782560b, type: 3}
+  m_gameManager: {fileID: 8412944825047300008, guid: a144612fb48134c4bbbf116cf14bf72d, type: 3}
+  m_poolManager: {fileID: 7033583161269749252, guid: 4dd19f3b57e5b394e949e38241eb5b92, type: 3}
+  m_previewTrapPrefab:
+  - {fileID: 3998317008809456835, guid: 15f700a8f20bac44684a8421b8b60ad6, type: 3}
+  - {fileID: 1544929629709357950, guid: 7a69b7685e0e2ac44972651895b1f570, type: 3}
+  - {fileID: 2656546476268581722, guid: 2e11ad3234019174980440043212c273, type: 3}
+  - {fileID: 2009407959295534225, guid: 3320ada54cb9d974584337ab20b906a0, type: 3}
+  m_prevMaterial: {fileID: 2100000, guid: d8ed616961e86404eb84d4156bcc3579, type: 2}
+  m_rotateSpeed: 5
+  m_maxPlaceDistance: 20
+  m_fieldMask:
+    serializedVersion: 2
+    m_Bits: 8192
+  m_buildMode: 1
