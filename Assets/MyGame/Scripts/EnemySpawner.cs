@@ -5,7 +5,7 @@ using UnityEngine;
 public class EnemySpawner : MonoBehaviour
 {
     [SerializeField] GameObject m_originTarget;
-    [SerializeField] GameSceneManager m_gameManager;
+    [SerializeField] GameSceneManager m_gameSceneManager;
     [SerializeField] Wave[] m_waves;
     [SerializeField] GameObject m_centerSpown;
     [SerializeField] private float m_radius; //“G‚ÌoŒ»”ÍˆÍ‚Ì’†S‚©‚ç‚Ì‹——£
@@ -30,7 +30,7 @@ public class EnemySpawner : MonoBehaviour
     public bool GetWaveFinished => m_waveFinised;
 
     public GameObject GetOriginTarget=>m_originTarget;
-    public PlayerController GetPlayerController => m_gameManager.GetPlayer;
+    public PlayerController GetPlayerController => m_gameSceneManager.GetPlayer;
 
     public void SetWaveContent()
     {
@@ -119,7 +119,7 @@ public class EnemySpawner : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        m_poolManager = m_gameManager.GetPoolManager;
+        m_poolManager = m_gameSceneManager.GetPoolManager;
         m_waveFinised=true;
     }
 

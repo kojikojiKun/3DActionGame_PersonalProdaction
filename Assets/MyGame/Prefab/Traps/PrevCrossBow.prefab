@@ -273,8 +273,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e041df27cffcc6649be4f3ba3347e10e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PrevTriggerCheck
-  putTraps: {fileID: 8400120427811046232, guid: f0b40e3c65648ab4eb1db277322715b8, type: 3}
-  prevCol: {fileID: 5213407817607922460}
+  m_prevCol: {fileID: 5213407817607922460}
 --- !u!1 &3095962957742829769
 GameObject:
   m_ObjectHideFlags: 0

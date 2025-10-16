@@ -23,15 +23,14 @@ public class PutTraps : MonoBehaviour
     [SerializeField] LayerMask m_fieldMask; //トラップ設置可能なレイヤー
     public bool m_buildMode = true; //トラップ設置モードフラグ
     private bool m_decided; //トラップの種類選択完了フラグ
+    private bool m_inRange;
+    private bool m_collision;
     private bool m_canPlace; //トラップ設置可能フラグ
     private bool m_isRotating;
-    private bool m_isCollision;
     private Vector2 m_rotateDir;
     private int m_trapIndex = 0;
     private float m_nextAllowTime = 0f;
     private float m_scrollCoolDown = 0.1f; //マウスミドルボタンのスクロールクールダウン
-    private bool m_isEnabled;
-    private bool m_isDisabled;
 
     private void OnEnable()
     {
@@ -175,11 +174,11 @@ public class PutTraps : MonoBehaviour
             //プレイヤーとの距離が設置可能距離以下
             if (distance <= m_maxPlaceDistance)
             {
-                m_canPlace = true; //設置可能
+                m_inRange = true; //設置可能
             }
             else
             {
-                m_canPlace = false; //設置不可
+                m_inRange = false; //設置不可
             }
             TryPlaceTrap(hitPos);
         }
@@ -203,7 +202,7 @@ public class PutTraps : MonoBehaviour
     //プレビューがほかのオブジェクトと衝突していれば設置負荷
     public void TriggerCheckResult(bool collision)
     {
-        m_isCollision = collision;
+        m_collision = collision;
     }
 
     void TryPlaceTrap(Vector3 hitPos)
@@ -226,11 +225,12 @@ public class PutTraps : MonoBehaviour
     //トラップを設置する
     void SucceedPlaceTrap()
     {
+        Debug.Log(m_trapName[m_trapIndex]);
         GameObject trap = m_poolManager.GetTrap(m_trapName[m_trapIndex]); //トラップをプールから取り出す
         m_prevInstance[m_trapIndex].SetActive(false); //プレビュー非表示
-        trap.SetActive(true);
+        //trap.SetActive(true);
         trap.transform.rotation = m_lastPreviewPos.localRotation;
-        trap.transform.position = m_lastPreviewPos.position; //トラップをプレビューの位置に設置
+        trap.transform.position = m_lastPreviewPos.transform.position; //トラップをプレビューの位置に設置
         m_decided = false;
     }
 
@@ -267,6 +267,7 @@ public class PutTraps : MonoBehaviour
         m_playerController = m_gameSceneManager.GetPlayer;
         m_prevInstance = new GameObject[m_previewTrapPrefab.Length];
         m_prevCollider = new Collider[m_previewTrapPrefab.Length];
+
         for (int i = 0; i < m_previewTrapPrefab.Length; i++)
         {
             GameObject prev=Instantiate(m_previewTrapPrefab[i]);
@@ -278,15 +279,17 @@ public class PutTraps : MonoBehaviour
     }
 
     private void Update()
-    {Debug.Log($"trapIndex{m_trapIndex}");
-        Debug.Log(m_gameSceneManager.IsWaveFinished());
-        
+    {   
         if (m_isRotating == true)
         {
             RotateTrap();
         }
 
-        if (m_isCollision == true)
+        if (m_inRange == true && m_collision == false)
+        {
+            m_canPlace = true;
+        }
+        else if (m_inRange == false || m_collision == true)
         {
             m_canPlace = false;
         }

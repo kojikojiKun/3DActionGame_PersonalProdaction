@@ -5,11 +5,8 @@ using UnityEngine;
 [System.Serializable]
 public class PoolType
 {
-    [SerializeField] string name;
-    [SerializeField] ObjectPool pool;
-
-    public string GetName => name;
-    public ObjectPool GetPool=>pool;
+    public string name;
+    public ObjectPool pool;
 }
 public class PoolManager : MonoBehaviour
 {
@@ -25,19 +22,19 @@ public class PoolManager : MonoBehaviour
         trapDict = new Dictionary<string,ObjectPool>();
         foreach(var ePools in enemyPools)
         {
-            enemyDict[ePools.GetName] = ePools.GetPool;
+            enemyDict[ePools.name] = ePools.pool;
         }
 
         foreach (var tPools in trapPools)
         {
-            enemyDict[tPools.GetName] = tPools.GetPool;
+            trapDict[tPools.name] = tPools.pool;
         }
     }
 
     // “G‚ð–¼‘O‚ÅŽæ“¾
     public GameObject GetEnemy(string name)
     {
-        Debug.Log("aaaaaaaaaaaaaaaaaa");
+        Debug.Log(name);
         if(enemyDict.TryGetValue(name, out ObjectPool pool))
         {
             return pool.GetObject();
@@ -50,6 +47,7 @@ public class PoolManager : MonoBehaviour
     // ã©‚ð–¼‘O‚ÅŽæ“¾
     public GameObject GetTrap(string name)
     {
+        Debug.Log(name);
         if (trapDict.TryGetValue(name, out ObjectPool pool))
         {
             return pool.GetObject();

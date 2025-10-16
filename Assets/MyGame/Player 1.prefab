@@ -21072,7 +21072,7 @@ MonoBehaviour:
     m_ActionName: 'Player/Guard[/Mouse/rightButton]'
   - m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 8400120427811046232, guid: f0b40e3c65648ab4eb1db277322715b8, type: 3}
+      - m_Target: {fileID: 4383767613990019986}
         m_TargetAssemblyTypeName: PutTraps, Assembly-CSharp
         m_MethodName: OnMoveTrap
         m_Mode: 0
@@ -21088,7 +21088,7 @@ MonoBehaviour:
     m_ActionName: 'Mouse/Position[/Mouse/position]'
   - m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 8400120427811046232, guid: f0b40e3c65648ab4eb1db277322715b8, type: 3}
+      - m_Target: {fileID: 4383767613990019986}
         m_TargetAssemblyTypeName: PutTraps, Assembly-CSharp
         m_MethodName: OnDecideTrap
         m_Mode: 0
@@ -21104,7 +21104,7 @@ MonoBehaviour:
     m_ActionName: 'Mouse/Click[/Mouse/leftButton,/Mouse/rightButton]'
   - m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 8400120427811046232, guid: f0b40e3c65648ab4eb1db277322715b8, type: 3}
+      - m_Target: {fileID: 4383767613990019986}
         m_TargetAssemblyTypeName: PutTraps, Assembly-CSharp
         m_MethodName: OnSelectTrap
         m_Mode: 0
@@ -21120,7 +21120,7 @@ MonoBehaviour:
     m_ActionName: 'Mouse/Scroll[/Mouse/scroll]'
   - m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 8400120427811046232, guid: f0b40e3c65648ab4eb1db277322715b8, type: 3}
+      - m_Target: {fileID: 4383767613990019986}
         m_TargetAssemblyTypeName: PutTraps, Assembly-CSharp
         m_MethodName: OnPlaceTrap
         m_Mode: 0
@@ -21136,7 +21136,7 @@ MonoBehaviour:
     m_ActionName: Mouse/PlaceTrap
   - m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 8400120427811046232, guid: f0b40e3c65648ab4eb1db277322715b8, type: 3}
+      - m_Target: {fileID: 4383767613990019986}
         m_TargetAssemblyTypeName: PutTraps, Assembly-CSharp
         m_MethodName: OnRotateTrap
         m_Mode: 0
@@ -21231,8 +21231,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c9965454377173f4e9b1aa6993e82cdc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerController
-  m_gameManger: {fileID: 8412944825047300008, guid: a144612fb48134c4bbbf116cf14bf72d, type: 3}
-  m_putTraps: {fileID: 8400120427811046232, guid: f0b40e3c65648ab4eb1db277322715b8, type: 3}
   m_playerAction: {fileID: 1120369429361536294, guid: 052faaac586de48259a63d0c4782560b, type: 3}
 --- !u!114 &4383767613990019986
 MonoBehaviour:
@@ -21247,15 +21245,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PutTraps
   trapAction: {fileID: 2624460731081497113, guid: 052faaac586de48259a63d0c4782560b, type: 3}
-  m_gameManager: {fileID: 8412944825047300008, guid: a144612fb48134c4bbbf116cf14bf72d, type: 3}
-  m_poolManager: {fileID: 7033583161269749252, guid: 4dd19f3b57e5b394e949e38241eb5b92, type: 3}
   m_previewTrapPrefab:
   - {fileID: 3998317008809456835, guid: 15f700a8f20bac44684a8421b8b60ad6, type: 3}
   - {fileID: 1544929629709357950, guid: 7a69b7685e0e2ac44972651895b1f570, type: 3}
   - {fileID: 2656546476268581722, guid: 2e11ad3234019174980440043212c273, type: 3}
   - {fileID: 2009407959295534225, guid: 3320ada54cb9d974584337ab20b906a0, type: 3}
   m_prevMaterial: {fileID: 2100000, guid: d8ed616961e86404eb84d4156bcc3579, type: 2}
-  m_rotateSpeed: 5
+  m_rotateSpeed: 100
   m_maxPlaceDistance: 20
   m_fieldMask:
     serializedVersion: 2

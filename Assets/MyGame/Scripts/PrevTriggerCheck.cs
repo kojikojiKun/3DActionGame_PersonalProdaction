@@ -2,24 +2,30 @@ using UnityEngine;
 
 public class PrevTriggerCheck : MonoBehaviour
 {
-    [SerializeField] PutTraps putTraps;
-    [SerializeField] Collider prevCol;
-    private bool collision;
+    private PutTraps m_putTraps;
+    [SerializeField] Collider m_prevCol;
+    private bool m_collision;
     private void OnTriggerStay(Collider other)
     {
-        if (other.layerOverridePriority != LayerMask.NameToLayer("Field"))
+        if (other.gameObject.layer != LayerMask.NameToLayer("Field"))
         {
-            collision = true;
-            putTraps.TriggerCheckResult(collision);
+            m_collision = true;
+            m_putTraps.TriggerCheckResult(m_collision);
         }
     }
 
     private void OnTriggerExit(Collider other)
     {
-        if (other.layerOverridePriority != LayerMask.NameToLayer("Field"))
+        if (other.gameObject.layer != LayerMask.NameToLayer("Field"))
         {
-            collision = false;
-            putTraps.TriggerCheckResult(collision);
+            m_collision = false;
+            m_putTraps.TriggerCheckResult(m_collision);
         }
+    }
+
+    private void Start()
+    {
+        GameObject player=GameSceneManager.instance.GetPlayer.gameObject;
+        m_putTraps = player.GetComponent<PutTraps>();
     }
 }

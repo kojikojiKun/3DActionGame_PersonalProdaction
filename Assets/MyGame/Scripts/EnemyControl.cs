@@ -122,13 +122,10 @@ public class EnemyControl : MonoBehaviour
         Initialize();
     }
 
-    private void Awake()
-    {
-        Initialize();
-    }
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
-    {
+    { 
+        Initialize();
         m_target = m_originTarget;
     }
 
