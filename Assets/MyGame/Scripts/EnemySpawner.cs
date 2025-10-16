@@ -5,7 +5,7 @@ using UnityEngine;
 public class EnemySpawner : MonoBehaviour
 {
     [SerializeField] GameObject m_originTarget;
-    [SerializeField] GameManager m_gameManager;
+    [SerializeField] GameSceneManager m_gameManager;
     [SerializeField] Wave[] m_waves;
     [SerializeField] GameObject m_centerSpown;
     [SerializeField] private float m_radius; //“G‚ÌoŒ»”ÍˆÍ‚Ì’†S‚©‚ç‚Ì‹——£

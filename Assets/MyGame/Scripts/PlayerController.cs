@@ -3,8 +3,8 @@ using UnityEngine.InputSystem;
 
 public class PlayerController : MonoBehaviour
 {
-    [SerializeField] GameManager m_gameManger;
-    [SerializeField] PutTraps m_putTraps;
+    GameSceneManager m_gameSceneManger;
+    PutTraps m_putTraps;
     [SerializeField] InputActionReference m_playerAction;
     private float m_HP;
     private float m_AG;
@@ -62,7 +62,7 @@ public class PlayerController : MonoBehaviour
     {
         if (context.started)
         {
-            bool isWaveFinished = m_gameManger.IsWaveFinished();
+            bool isWaveFinished = m_gameSceneManger.IsWaveFinished();
             m_putTraps.ModeChange(isWaveFinished);
         }
     }
@@ -71,10 +71,12 @@ public class PlayerController : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        m_HP = m_gameManger.getHp;
-        m_AG = m_gameManger.getAG;
-        m_AS = m_gameManger.getAS;
-        m_ATK= m_gameManger.getATK;
+        m_putTraps=GetComponent<PutTraps>();
+        m_gameSceneManger=GameSceneManager.instance;
+        m_HP = m_gameSceneManger.getHp;
+        m_AG = m_gameSceneManger.getAG;
+        m_AS = m_gameSceneManger.getAS;
+        m_ATK= m_gameSceneManger.getATK;
     }
 
     // Update is called once per frame

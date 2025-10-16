@@ -2,12 +2,11 @@ using Unity.VisualScripting;
 using UnityEditor.Recorder;
 using UnityEngine;
 
-public class GameManager : MonoBehaviour
+public class GameSceneManager : MonoBehaviour
 {
     [SerializeField] PoolManager m_poolManager;
     [SerializeField] PlayerController[] m_playerPrefab;
     [SerializeField] EnemySpawner m_enemySpawner;
-    [SerializeField] PutTraps m_putTraps;
     private int m_playerIndex;
     [SerializeField] Transform m_playerSpawnPos;
     private PlayerController m_playerController;
@@ -17,6 +16,7 @@ public class GameManager : MonoBehaviour
     private float m_playerATK;
     private float m_playerAS;
 
+    public static GameSceneManager instance;
     public PlayerController GetPlayer=>m_playerController;
     public PoolManager GetPoolManager => m_poolManager;
     public float getHp => m_playerHP;
@@ -52,7 +52,6 @@ public class GameManager : MonoBehaviour
     //ウェーブ開始
     public void StartWave()
     {
-        m_putTraps.ModeChange(false); //トラップ設置を不可能にする.
         m_enemySpawner.SetWaveContent();
     }
 
@@ -61,11 +60,21 @@ public class GameManager : MonoBehaviour
         return m_enemySpawner.GetWaveFinished;
     }
 
+    private void Awake()
+    {
+        if(instance != null && instance == this)
+        {
+            Destroy(gameObject);
+        }
+
+        instance = this;
+        Debug.Log(instance);
+    }
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         SetPlayerStatus();
-        m_putTraps.ReceivePlayer(GetPlayer);
     }
 
     // Update is called once per frame

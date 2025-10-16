@@ -7,10 +7,10 @@ public class PutTraps : MonoBehaviour
 {
     //InputSystems
     [SerializeField] InputActionReference trapAction;
-    //[SerializeField] InputActionReference rotateTrap;
 
-    [SerializeField] GameManager m_gameManager;
-    [SerializeField] PoolManager m_poolManager;
+    private GameSceneManager m_gameSceneManager;
+    private PoolManager m_poolManager;
+
     private PlayerController m_playerController;
     private string[] m_trapName = new string[4] { "Fire", "CrossBow", "Blade", "Spike" };
     [SerializeField] GameObject[] m_previewTrapPrefab; //トラップの設置プレビュー用オブジェクト
@@ -260,21 +260,11 @@ public class PutTraps : MonoBehaviour
         Debug.Log(m_buildMode);
     }
 
-    public void ReceivePlayer(PlayerController player)
-    {if (player == null)
-        {
-            Debug.Log("null!!!");
-        }
-        else
-        {
-            Debug.Log("not null!!!");
-        }
-        m_playerController = player;
-        Debug.Log("setPlayer");
-    }
-
     private void Start()
     {
+        m_gameSceneManager = GameSceneManager.instance;
+        m_poolManager = m_gameSceneManager.GetPoolManager;
+        m_playerController = m_gameSceneManager.GetPlayer;
         m_prevInstance = new GameObject[m_previewTrapPrefab.Length];
         m_prevCollider = new Collider[m_previewTrapPrefab.Length];
         for (int i = 0; i < m_previewTrapPrefab.Length; i++)
@@ -289,7 +279,7 @@ public class PutTraps : MonoBehaviour
 
     private void Update()
     {Debug.Log($"trapIndex{m_trapIndex}");
-        Debug.Log(m_gameManager.IsWaveFinished());
+        Debug.Log(m_gameSceneManager.IsWaveFinished());
         
         if (m_isRotating == true)
         {
