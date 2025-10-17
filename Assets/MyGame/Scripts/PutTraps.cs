@@ -245,7 +245,6 @@ public class PutTraps : MonoBehaviour
 
         trap.transform.rotation = m_lastPreviewPos.localRotation; //プレビューの回転をトラップに反映.
         trap.transform.position = m_lastPreviewPos.transform.position; //トラップをプレビューの位置に設置.
-        Debug.Log($"prevPosition={m_lastPreviewPos.transform.position},trapPosition={trap.transform.position}");
         m_decided = false; //トラップを未選択にする.
     }
 

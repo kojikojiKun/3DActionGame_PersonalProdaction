@@ -17,12 +17,35 @@ public class GameSceneManager : MonoBehaviour
     private float m_playerAS;
 
     public static GameSceneManager instance;
-    public PlayerController GetPlayer=>m_playerController;
+    public PlayerController GetPlayer => m_playerController;
     public PoolManager GetPoolManager => m_poolManager;
     public float getHp => m_playerHP;
     public float getAG => m_playerAG;
     public float getATK => m_playerATK;
     public float getAS => m_playerAS;
+
+    private void Awake()
+    {
+        if (instance != null && instance == this)
+        {
+            Destroy(gameObject);
+        }
+
+        instance = this;
+        Debug.Log(instance);
+    }
+
+    // Start is called once before the first execution of Update after the MonoBehaviour is created
+    void Start()
+    {
+        SetPlayerStatus();
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+
+    }
 
     void SetPlayerStatus()
     {
@@ -58,28 +81,5 @@ public class GameSceneManager : MonoBehaviour
     public bool IsWaveFinished()
     {
         return m_enemySpawner.GetWaveFinished;
-    }
-
-    private void Awake()
-    {
-        if(instance != null && instance == this)
-        {
-            Destroy(gameObject);
-        }
-
-        instance = this;
-        Debug.Log(instance);
-    }
-
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
-    {
-        SetPlayerStatus();
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-
     }
 }
