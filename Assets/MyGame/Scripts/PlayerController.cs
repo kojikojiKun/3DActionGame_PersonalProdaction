@@ -1,3 +1,4 @@
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -6,16 +7,15 @@ public class PlayerController : MonoBehaviour
 {
     GameSceneManager m_gameSceneManger;
     PutTraps m_putTraps;
-    [SerializeField] InputActionReference m_playerAction;
-
-    [SerializeField] CharacterController m_character;
+    [SerializeField] Camera m_camera;
+    private CharacterController m_character;
+    private Animator m_animator;
+    private Vector3 m_prevPos;
     [SerializeField] private float m_jumpForce;
     [SerializeField] private float m_gravity;
     [SerializeField] private float m_fallSpeed;
-    [SerializeField] private float m_initFalllSpeed;
-    private Transform m_transform;
+    [SerializeField] private float m_initFallSpeed;
     private float m_verticalVelocity;
-    private float m_turnVelocity;
     private bool m_isGroundPrev;
 
     private float m_HP;
@@ -29,99 +29,110 @@ public class PlayerController : MonoBehaviour
     {
         //必要な要素参照
         m_putTraps = GetComponent<PutTraps>();
+        m_character = GetComponent<CharacterController>();
+        m_animator = GetComponent<Animator>();
         m_gameSceneManger = GameSceneManager.instance;
         m_HP = m_gameSceneManger.getHp;
         m_AG = m_gameSceneManger.getAG;
         m_AS = m_gameSceneManger.getAS;
         m_ATK = m_gameSceneManger.getATK;
-        m_transform = transform;
     }
 
     // Update is called once per frame
     void Update()
     {
-        
-        var isGrounded = m_character.isGrounded;
-        Debug.Log(isGrounded);
-        if (isGrounded &&!m_isGroundPrev)
-        {
-            m_verticalVelocity = -m_initFalllSpeed;
-        }else if (!isGrounded)
-        {
-            m_verticalVelocity-=m_gravity*Time.deltaTime;
-
-            if (m_verticalVelocity < -m_fallSpeed)
-            {
-                m_verticalVelocity=-m_fallSpeed;
-            }
-        }
-        m_isGroundPrev = isGrounded;
-
-        var moveVelocity = new Vector3(m_inputMove.x * m_AG, m_verticalVelocity, m_inputMove.y * m_AG);
-        var moveDelta=moveVelocity*Time.deltaTime;
-
-        m_character.Move(moveDelta);
-
-        if (m_inputMove != Vector2.zero)
-        {
-            // 移動入力がある場合は、振り向き動作も行う
-
-            // 操作入力からy軸周りの目標角度[deg]を計算
-            var targetAngleY = -Mathf.Atan2(m_inputMove.y, m_inputMove.x)
-                * Mathf.Rad2Deg + 90;
-
-            // イージングしながら次の回転角度[deg]を計算
-            var angleY = Mathf.SmoothDampAngle(
-                m_transform.eulerAngles.y,
-                targetAngleY,
-            ref m_turnVelocity,
-                0.1f
-            );
-
-            // オブジェクトの回転を更新
-            m_transform.rotation = Quaternion.Euler(0, angleY, 0);
-        }
+        MovePlayer();
     }
 
-    private void OnEnable()
-    {
-        //InputActionMap有効化.
-        m_playerAction.action.actionMap.Enable();
-    }
 
-    private void OnDisable()
-    {
-        //InputActionMap無効化.
-        m_playerAction.action.actionMap.Disable();
-    }
 
     public void OnMove(InputAction.CallbackContext context)
     {
 
         m_inputMove = context.ReadValue<Vector2>();
-
+        // Debug.Log(m_inputMove);
     }
 
+    bool IsGroundedRay()
+    {
+        float radius = 0.3f;
+        float distance = 0.1f;
+        return Physics.SphereCast(transform.position, radius, Vector3.down, out _, distance);
+    }
+
+    //プレイヤーを移動させる.
+    void MovePlayer()
+    {
+        bool isGrounded = m_character.isGrounded || IsGroundedRay();
+        Debug.Log($"character={m_character.isGrounded},Ray={IsGroundedRay()}");
+
+        if (isGrounded)
+        {
+            if (!m_isGroundPrev)
+                m_verticalVelocity = 0f; // 着地時リセット
+
+            if (m_verticalVelocity < 0)
+                m_verticalVelocity = -1f; // 安定化
+        }
+        else
+        {
+            m_verticalVelocity -= m_gravity * Time.deltaTime;
+            if (m_verticalVelocity < -m_fallSpeed)
+                m_verticalVelocity = -m_fallSpeed;
+        }
+
+        m_isGroundPrev = isGrounded;
+
+        Vector3 camForward = m_camera.transform.forward;
+        Vector3 camRight = m_camera.transform.right;
+        camForward.y = 0;
+        camRight.y = 0;
+
+        Vector3 moveDir = (camForward.normalized * m_inputMove.y + camRight.normalized * m_inputMove.x).normalized;
+        Vector3 moveVelocity = moveDir * m_AG;
+
+        Vector3 moveDelta = (moveVelocity + Vector3.up * m_verticalVelocity) * Time.deltaTime;
+
+
+        m_character.Move(moveDelta);
+
+        //移動スピードを計算 .
+        Vector3 delta = m_character.transform.position - m_prevPos;
+        float moveSpeed = delta.magnitude / Time.deltaTime;
+        m_prevPos = transform.position;
+
+        m_animator.SetFloat("moveSpeed", moveSpeed);
+        m_animator.SetFloat("moveX", m_inputMove.x);
+        m_animator.SetFloat("moveY", m_inputMove.y);
+    }
+
+    //ジャンプボタン入力を検知.
     public void OnJump(InputAction.CallbackContext context)
     {
-        if (context.started && m_character.isGrounded)
+        //入力した瞬間かつプレイヤーが接地している.
+        if (context.phase == InputActionPhase.Started)
         {
-            Debug.Log("jumping");
-            m_verticalVelocity=m_jumpForce;
+            if (m_character.isGrounded || IsGroundedRay())
+                Debug.Log("jumping");
+            m_verticalVelocity = m_jumpForce;
         }
     }
 
+    //攻撃ボタン入力を検知.
     public void OnAttack(InputAction.CallbackContext context)
     {
-        if (context.started)
+        //入力した瞬間だけ.
+        if (context.phase == InputActionPhase.Started)
         {
-            Debug.Log("attakicng");
+            m_animator.SetTrigger("attack");
         }
     }
 
+    //トラップを置く状態と置かない状態を切り替え.
     public void OnChangeMode(InputAction.CallbackContext context)
     {
-        if (context.started)
+        //入力した瞬間だけ.
+        if (context.phase == InputActionPhase.Started)
         {
             bool isWaveFinished = m_gameSceneManger.IsWaveFinished();
             m_putTraps.ModeChange(isWaveFinished);

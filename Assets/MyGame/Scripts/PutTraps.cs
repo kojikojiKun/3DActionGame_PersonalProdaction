@@ -5,9 +5,6 @@ using Debug = UnityEngine.Debug;
 
 public class PutTraps : MonoBehaviour
 {
-    //InputSystems
-    [SerializeField] InputActionReference trapAction;
-
     private GameSceneManager m_gameSceneManager;
     private PoolManager m_poolManager;
     private PlayerController m_playerController;
@@ -63,17 +60,6 @@ public class PutTraps : MonoBehaviour
         {
             m_canPlace = false; //設置不可.
         }
-    }
-
-    private void OnEnable()
-    {
-        //InputActionMap有効化.
-        trapAction.action.actionMap.Enable();
-    }
-    private void OnDisable()
-    {
-        //InputActionMap無効化.
-        trapAction.action.actionMap.Disable();
     }
 
     //マウスミドルボタンスクロールでトラップの種類選択.
